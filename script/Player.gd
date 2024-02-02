@@ -8,6 +8,8 @@ const FRICTION = 400
 var animationPlayer = null
 var animationTree = null
 var animationState = null
+var interactLabel = null
+@onready var all_interactions = []
 
 enum { #Variabili
 	MOVE, #Valore -> 0
@@ -20,7 +22,9 @@ var state = MOVE
 func _ready():
 	animationPlayer = $AnimationPlayer
 	animationTree = $AnimationTree
+	interactLabel = $Interaction/InteractLabel
 	animationState = animationTree.get("parameters/playback")
+	updateInteractions()
 
 func _process(delta):
 	match state: #simile a switch (state)
@@ -30,6 +34,9 @@ func _process(delta):
 			pass
 		ATTACK:
 			attack(delta)
+			
+	if Input.is_action_just_pressed("interact"):
+		execute_interaction()
 	
 	#if Input.get_action_strength("space_bar") or Input.get_action_strength("left_click"):
 		#print("Ciao")
@@ -60,3 +67,26 @@ func attack(delta):
 	
 func attackFinished():
 	state = MOVE
+
+#Interazioni
+
+func _on_interaction_area_area_entered(area):
+	all_interactions.insert(0, area)
+	updateInteractions()
+
+
+func _on_interaction_area_area_exited(area):
+	all_interactions.erase(area)
+	updateInteractions()
+
+func updateInteractions():
+	if all_interactions:
+		interactLabel.text = all_interactions[0].action_name
+	else :
+		interactLabel.text = ""
+
+func execute_interaction():
+	if all_interactions:
+		var cur_interaction = all_interactions[0]
+		match cur_interaction.interact_value:
+			"openChest" : Global.openChest = true

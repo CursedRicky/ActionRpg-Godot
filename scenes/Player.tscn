@@ -1,7 +1,8 @@
-[gd_scene load_steps=42 format=3 uid="uid://b3dvblv1v6hs"]
+[gd_scene load_steps=44 format=3 uid="uid://b3dvblv1v6hs"]
 
 [ext_resource type="Script" path="res://script/Player.gd" id="1_i8h5g"]
 [ext_resource type="Texture2D" uid="uid://c1cc4j037diai" path="res://art/Player/Player.png" id="2_jcvpv"]
+[ext_resource type="FontFile" uid="uid://bqnjxpucg2re4" path="res://art/Font/font1.ttf" id="3_armwp"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6lvrj"]
 
@@ -395,8 +396,13 @@ _data = {
 "RunTop": SubResource("Animation_srcdq")
 }
 
-[node name="Player" type="CharacterBody2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_v7c2l"]
+radius = 30.0167
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+y_sort_enabled = true
 position = Vector2(1, 2)
+collision_layer = 2
 script = ExtResource("1_i8h5g")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -426,3 +432,34 @@ parameters/Run/blend_position = Vector2(0.000888944, -1)
 libraries = {
 "": SubResource("AnimationLibrary_67k7o")
 }
+
+[node name="Interaction" type="Node2D" parent="."]
+z_index = 1
+
+[node name="Interaction Area" type="Area2D" parent="Interaction"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interaction/Interaction Area"]
+position = Vector2(-1, -8)
+shape = SubResource("CircleShape2D_v7c2l")
+
+[node name="InteractLabel" type="Label" parent="Interaction"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -56.0
+offset_right = 75.0
+offset_bottom = -33.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_armwp")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="area_entered" from="Interaction/Interaction Area" to="." method="_on_interaction_area_area_entered"]
+[connection signal="area_exited" from="Interaction/Interaction Area" to="." method="_on_interaction_area_area_exited"]
