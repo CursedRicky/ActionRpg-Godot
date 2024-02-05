@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://delqnkvhl6im7"]
+[gd_scene load_steps=14 format=3 uid="uid://delqnkvhl6im7"]
 
 [ext_resource type="Script" path="res://script/Enemy/Bat.gd" id="1_f4nel"]
 [ext_resource type="Texture2D" uid="uid://b2k0uuo0pk1ms" path="res://art/Enemies/Bat.png" id="2_vb75s"]
 [ext_resource type="PackedScene" uid="uid://kje7vcoucwfe" path="res://scenes/Box/hurt_box.tscn" id="3_driar"]
 [ext_resource type="Texture2D" uid="uid://ddpykgcgqo0ve" path="res://art/Shadows/SmallShadow.png" id="3_ihbxk"]
+[ext_resource type="PackedScene" uid="uid://d3q5a0ppcdkug" path="res://scenes/Box/stats.tscn" id="5_3s6p2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nj256"]
 atlas = ExtResource("2_vb75s")
@@ -63,7 +64,7 @@ script = ExtResource("1_f4nel")
 sprite_frames = SubResource("SpriteFrames_dpo60")
 animation = &"Fly"
 autoplay = "Fly"
-frame_progress = 0.242248
+frame_progress = 0.815959
 offset = Vector2(0, -12)
 
 [node name="Shadow" type="Sprite2D" parent="."]
@@ -79,6 +80,10 @@ shape = SubResource("CircleShape2D_2epm6")
 position = Vector2(0, -14)
 shape = SubResource("CapsuleShape2D_rj6wb")
 
+[node name="Stats" parent="." instance=ExtResource("5_3s6p2")]
+maxHealt = 3
+
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
+[connection signal="noHealt" from="Stats" to="." method="_on_stats_no_healt"]
 
 [editable path="HurtBox"]

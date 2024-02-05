@@ -1,8 +1,8 @@
 extends Node2D
 
-var animationPlayer = null
-var animationTree = null
-var animationState = null
+@onready var animationPlayer = $AnimationPlayer
+@onready var animationTree = $AnimationTree
+@onready var animationState = animationTree.get("parameters/playback")
 
 var lootable = false
 var enter = false
@@ -11,11 +11,8 @@ var enter = false
 @onready var interaction_area = $InteractionArea
 @onready var label = $Label
 
-func _ready():
-	animationPlayer = $AnimationPlayer
-	animationTree = $AnimationTree
+func _ready(): 
 	animationTree.active = true
-	animationState = animationTree.get("parameters/playback")
 	animationState.travel("Idle")
 	label.visible = false
 

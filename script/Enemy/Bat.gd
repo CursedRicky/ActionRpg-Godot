@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
-var hp = 5
 var knockback= Vector2.ZERO
 
 @onready var target = $"../Player"
+@onready var stats = $Stats
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -15,5 +15,8 @@ func _physics_process(delta):
 	move_and_slide()
 
 func _on_hurt_box_area_entered(area):
+	stats.healt -= area.damage
 	knockback = area.knockbackVector * 125
-	
+
+func _on_stats_no_healt():
+	queue_free()
