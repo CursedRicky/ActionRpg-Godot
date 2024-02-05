@@ -1,8 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://c6g12kvhd5owi"]
+[gd_scene load_steps=20 format=3 uid="uid://c6g12kvhd5owi"]
 
 [ext_resource type="Script" path="res://script/Chest.gd" id="1_88y3g"]
-[ext_resource type="Texture2D" uid="uid://cpjd321ffhjwr" path="res://art/World/Chest/CassaAnim.png" id="1_ihra6"]
-[ext_resource type="Shader" path="res://art/Shader/Dark.gdshader" id="1_st2kf"]
+[ext_resource type="Texture2D" uid="uid://ecvxf0csgkj2" path="res://art/World/Chest/cassaAnim.png" id="1_ihra6"]
+[ext_resource type="FontFile" uid="uid://bqnjxpucg2re4" path="res://art/Font/font1.ttf" id="4_3un0a"]
 [ext_resource type="PackedScene" uid="uid://cs2rh788andaa" path="res://interaction/interaction area/interaction_area.tscn" id="4_np3e6"]
 
 [sub_resource type="Animation" id="Animation_m536e"]
@@ -31,10 +31,24 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.6, 0.9, 1.1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.3, 0.6, 0.9, 1.1, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 3, 4]
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"giveItemsToPlayer"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_4nies"]
@@ -52,21 +66,41 @@ tracks/0/keys = {
 "values": [1]
 }
 
+[sub_resource type="Animation" id="Animation_epjlg"]
+resource_name = "IdleLottata"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_otoih"]
 _data = {
 "Idle": SubResource("Animation_m536e"),
+"IdleLottata": SubResource("Animation_epjlg"),
 "Opening": SubResource("Animation_qcgsn"),
 "RESET": SubResource("Animation_4nies")
 }
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_proms"]
-shader = ExtResource("1_st2kf")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7nvvf"]
 size = Vector2(19.0388, 14.342)
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ag5nk"]
 animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_apbb8"]
+animation = &"IdleLottata"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_phint"]
 animation = &"Opening"
@@ -76,15 +110,20 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_fegfy"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vvxmv"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cq4cc"]
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_iddo0"]
+states/End/position = Vector2(948, 100)
 states/Idle/node = SubResource("AnimationNodeAnimation_ag5nk")
 states/Idle/position = Vector2(440, 100)
+states/IdleLottata/node = SubResource("AnimationNodeAnimation_apbb8")
+states/IdleLottata/position = Vector2(797, 100)
 states/Opening/node = SubResource("AnimationNodeAnimation_phint")
 states/Opening/position = Vector2(628, 100)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_mwnk4"), "Idle", "Opening", SubResource("AnimationNodeStateMachineTransition_fegfy"), "Opening", "Idle", SubResource("AnimationNodeStateMachineTransition_vvxmv")]
-graph_offset = Vector2(0, -47)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_mwnk4"), "Idle", "Opening", SubResource("AnimationNodeStateMachineTransition_fegfy"), "Opening", "IdleLottata", SubResource("AnimationNodeStateMachineTransition_cq4cc")]
+graph_offset = Vector2(188, -28)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6tkhf"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_88y3g")
@@ -97,7 +136,7 @@ libraries = {
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_proms")
 texture = ExtResource("1_ihra6")
-hframes = 5
+hframes = 6
 frame = 1
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
@@ -111,10 +150,29 @@ shape = SubResource("RectangleShape2D_7nvvf")
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_iddo0")
 anim_player = NodePath("../AnimationPlayer")
-active = true
 
 [node name="InteractionArea" parent="." instance=ExtResource("4_np3e6")]
 position = Vector2(0, 5)
 action_name = "[ENTER] to open"
 interact_type = "openChest"
 interact_value = "openChest"
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 256
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_6tkhf")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -112.0
+offset_top = -32.0
+offset_right = 118.0
+offset_bottom = -8.0
+theme_override_fonts/font = ExtResource("4_3un0a")
+text = "[ENTER] per aprire"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]

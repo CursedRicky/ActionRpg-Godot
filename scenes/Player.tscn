@@ -1,8 +1,9 @@
-[gd_scene load_steps=44 format=3 uid="uid://b3dvblv1v6hs"]
+[gd_scene load_steps=46 format=3 uid="uid://b3dvblv1v6hs"]
 
 [ext_resource type="Script" path="res://script/Player.gd" id="1_i8h5g"]
 [ext_resource type="Texture2D" uid="uid://c1cc4j037diai" path="res://art/Player/Player.png" id="2_jcvpv"]
-[ext_resource type="FontFile" uid="uid://bqnjxpucg2re4" path="res://art/Font/font1.ttf" id="3_armwp"]
+[ext_resource type="PackedScene" uid="uid://0cgjopmw7jb4" path="res://scenes/Box/hit_box.tscn" id="4_pe86v"]
+[ext_resource type="Script" path="res://script/Player/swordHitBox.gd" id="5_fbuaj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6lvrj"]
 
@@ -35,9 +36,6 @@ min_space = Vector2(-1, -1.1)
 max_space = Vector2(1, 1.1)
 blend_mode = 1
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ofn4k"]
-animation = &"IdleLeft"
-
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ehu2x"]
 animation = &"IdleRight"
 
@@ -47,15 +45,19 @@ animation = &"IdleTop"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_oudnh"]
 animation = &"IdleBot"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_w4amx"]
+animation = &"IdleLeft"
+
 [sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_l38qs"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_ofn4k")
-blend_point_0/pos = Vector2(-1, 0)
-blend_point_1/node = SubResource("AnimationNodeAnimation_ehu2x")
-blend_point_1/pos = Vector2(1, 0)
-blend_point_2/node = SubResource("AnimationNodeAnimation_4gq5i")
-blend_point_2/pos = Vector2(0, -1)
-blend_point_3/node = SubResource("AnimationNodeAnimation_oudnh")
-blend_point_3/pos = Vector2(0, 1)
+blend_point_0/node = SubResource("AnimationNodeAnimation_ehu2x")
+blend_point_0/pos = Vector2(1.1, 0)
+blend_point_1/node = SubResource("AnimationNodeAnimation_4gq5i")
+blend_point_1/pos = Vector2(0, -1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_oudnh")
+blend_point_2/pos = Vector2(0, 1)
+blend_point_3/node = SubResource("AnimationNodeAnimation_w4amx")
+blend_point_3/pos = Vector2(-1, 0)
+max_space = Vector2(1.1, 1)
 blend_mode = 1
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wfjc5"]
@@ -106,7 +108,7 @@ states/Idle/position = Vector2(382, 100)
 states/Run/node = SubResource("AnimationNodeBlendSpace2D_0hqp2")
 states/Run/position = Vector2(687, 100)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_ea3yh"), "Idle", "Run", SubResource("AnimationNodeStateMachineTransition_6ceag"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_mb7ld"), "Idle", "Attack", SubResource("AnimationNodeStateMachineTransition_rhci6"), "Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_1hiji"), "Attack", "Run", SubResource("AnimationNodeStateMachineTransition_ximbx"), "Run", "Attack", SubResource("AnimationNodeStateMachineTransition_y0j6j")]
-graph_offset = Vector2(-72, 34)
+graph_offset = Vector2(19, -18)
 
 [sub_resource type="Animation" id="Animation_k6gn2"]
 resource_name = "AttackBot"
@@ -136,6 +138,30 @@ tracks/1/keys = {
 "args": [],
 "method": &"attackFinished"
 }]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HitBoxPivot:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.5708]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("HitBoxPivot/SwordHitBox/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
 }
 
 [sub_resource type="Animation" id="Animation_r3rle"]
@@ -167,6 +193,30 @@ tracks/1/keys = {
 "method": &"attackFinished"
 }]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HitBoxPivot:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [3.14159]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("HitBoxPivot/SwordHitBox/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
 
 [sub_resource type="Animation" id="Animation_nc78v"]
 resource_name = "AttackRight"
@@ -197,6 +247,30 @@ tracks/1/keys = {
 "method": &"attackFinished"
 }]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HitBoxPivot:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("HitBoxPivot/SwordHitBox/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
 
 [sub_resource type="Animation" id="Animation_lu2uv"]
 resource_name = "AttackTop"
@@ -226,6 +300,30 @@ tracks/1/keys = {
 "args": [],
 "method": &"attackFinished"
 }]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HitBoxPivot:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [4.71239]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("HitBoxPivot/SwordHitBox/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
 }
 
 [sub_resource type="Animation" id="Animation_klolu"]
@@ -259,7 +357,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0]
+"values": [12]
 }
 
 [sub_resource type="Animation" id="Animation_iyc7c"]
@@ -309,6 +407,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [20]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HitBoxPivot/SwordHitBox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_xal6g"]
@@ -396,10 +506,14 @@ _data = {
 "RunTop": SubResource("Animation_srcdq")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_v7c2l"]
-radius = 30.0167
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0ipyr"]
+radius = 11.0
+height = 34.0
 
-[node name="Player" type="CharacterBody2D" groups=["player"]]
+[sub_resource type="CircleShape2D" id="CircleShape2D_uav5l"]
+radius = 31.0161
+
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
 y_sort_enabled = true
 position = Vector2(1, 2)
 collision_layer = 2
@@ -414,6 +528,7 @@ frame = 20
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(-1, -2)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_2goiq")
@@ -423,9 +538,8 @@ shape = SubResource("CapsuleShape2D_2goiq")
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_b1sfb")
 anim_player = NodePath("../AnimationPlayer")
-active = true
 parameters/Attack/blend_position = Vector2(0, 0)
-parameters/Idle/blend_position = Vector2(-0.000888884, 0.423581)
+parameters/Idle/blend_position = Vector2(-0.234667, -0.010582)
 parameters/Run/blend_position = Vector2(0.000888944, -1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -433,33 +547,29 @@ libraries = {
 "": SubResource("AnimationLibrary_67k7o")
 }
 
-[node name="Interaction" type="Node2D" parent="."]
-z_index = 1
+[node name="HitBoxPivot" type="Marker2D" parent="."]
+position = Vector2(0, -5)
+rotation = 1.5708
+gizmo_extents = 8.0
 
-[node name="Interaction Area" type="Area2D" parent="Interaction"]
-collision_layer = 0
-collision_mask = 2
-monitorable = false
+[node name="SwordHitBox" parent="HitBoxPivot" instance=ExtResource("4_pe86v")]
+visible = false
+position = Vector2(-77, -51)
+collision_layer = 16
+script = ExtResource("5_fbuaj")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interaction/Interaction Area"]
-position = Vector2(-1, -8)
-shape = SubResource("CircleShape2D_v7c2l")
+[node name="CollisionShape2D" parent="HitBoxPivot/SwordHitBox" index="0"]
+position = Vector2(90, 50)
+shape = SubResource("CapsuleShape2D_0ipyr")
+disabled = true
+debug_color = Color(0.988235, 0, 0.305882, 0.419608)
 
-[node name="InteractLabel" type="Label" parent="Interaction"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -77.0
-offset_top = -56.0
-offset_right = 75.0
-offset_bottom = -33.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = ExtResource("3_armwp")
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="InteractionArea" type="Area2D" parent="."]
+collision_layer = 256
+collision_mask = 256
 
-[connection signal="area_entered" from="Interaction/Interaction Area" to="." method="_on_interaction_area_area_entered"]
-[connection signal="area_exited" from="Interaction/Interaction Area" to="." method="_on_interaction_area_area_exited"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="InteractionArea"]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_uav5l")
+
+[editable path="HitBoxPivot/SwordHitBox"]

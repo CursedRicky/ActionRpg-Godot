@@ -1,14 +1,16 @@
 extends CharacterBody2D
+class_name Player
 
 #Variabili globali
 const ACCELERATION = 400
 const MAXSPEED = 125
 const FRICTION = 400 
 
-var animationPlayer = null
-var animationTree = null
-var animationState = null
-var interactLabel = null
+@onready var swordHitBox = $HitBoxPivot/SwordHitBox
+@onready var animationPlayer = $AnimationPlayer
+@onready var animationTree = $AnimationTree
+@onready var interactLabel = $Interaction/InteractLabel
+@onready var animationState = animationTree.get("parameters/playback")
 @onready var all_interactions = []
 
 enum { #Variabili
@@ -20,11 +22,9 @@ enum { #Variabili
 var state = MOVE
 
 func _ready():
-	animationPlayer = $AnimationPlayer
-	animationTree = $AnimationTree
-	interactLabel = $Interaction/InteractLabel
-	animationState = animationTree.get("parameters/playback")
-	updateInteractions()
+	animationTree.active = true
+	#swordHitBox.knockbackVector = role_vector
+	
 
 func _process(delta):
 	match state: #simile a switch (state)
@@ -34,9 +34,6 @@ func _process(delta):
 			pass
 		ATTACK:
 			attack(delta)
-			
-	if Input.is_action_just_pressed("interact"):
-		execute_interaction()
 	
 	#if Input.get_action_strength("space_bar") or Input.get_action_strength("left_click"):
 		#print("Ciao")
@@ -48,6 +45,8 @@ func move(delta) :
 	inputVector = inputVector.normalized() #Vettore normalizzato così che il pg non sia più veloce in diagonale
 	
 	if inputVector != Vector2.ZERO:
+		#roll_vector = inputVector
+		swordHitBox.knockbackVector = inputVector
 		animationTree.set("parameters/Idle/blend_position", inputVector)
 		animationTree.set("parameters/Run/blend_position", inputVector)
 		animationTree.set("parameters/Attack/blend_position", inputVector)
@@ -67,26 +66,3 @@ func attack(delta):
 	
 func attackFinished():
 	state = MOVE
-
-#Interazioni
-
-func _on_interaction_area_area_entered(area):
-	all_interactions.insert(0, area)
-	updateInteractions()
-
-
-func _on_interaction_area_area_exited(area):
-	all_interactions.erase(area)
-	updateInteractions()
-
-func updateInteractions():
-	if all_interactions:
-		interactLabel.text = all_interactions[0].action_name
-	else :
-		interactLabel.text = ""
-
-func execute_interaction():
-	if all_interactions:
-		var cur_interaction = all_interactions[0]
-		match cur_interaction.interact_value:
-			"openChest" : Global.openChest = true
