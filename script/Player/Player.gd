@@ -66,7 +66,7 @@ func move(delta) :
 		state = ROLL
 
 func roll(delta):
-	velocity = rollVector * MAXSPEED * 1.5
+	velocity = rollVector * MAXSPEED * 1.25
 	animationState.travel("Roll")
 	move_and_slide()
 
@@ -80,3 +80,6 @@ func attackFinished():
 	
 func rollFinished():
 	state = MOVE
+	
+func player():
+	pass

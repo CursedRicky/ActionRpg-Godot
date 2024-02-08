@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://script/Chest.gd" id="1_88y3g"]
 [ext_resource type="Texture2D" uid="uid://ecvxf0csgkj2" path="res://art/World/Chest/cassaAnim.png" id="1_ihra6"]
 [ext_resource type="FontFile" uid="uid://bqnjxpucg2re4" path="res://art/Font/font1.ttf" id="4_3un0a"]
-[ext_resource type="PackedScene" uid="uid://cs2rh788andaa" path="res://interaction/interaction area/interaction_area.tscn" id="4_np3e6"]
+[ext_resource type="Texture2D" uid="uid://dpqeg5l0shcvh" path="res://art/Shadows/LargeShadow.png" id="4_gr8iq"]
 
 [sub_resource type="Animation" id="Animation_m536e"]
 resource_name = "Idle"
@@ -151,12 +151,6 @@ shape = SubResource("RectangleShape2D_7nvvf")
 tree_root = SubResource("AnimationNodeStateMachine_iddo0")
 anim_player = NodePath("../AnimationPlayer")
 
-[node name="InteractionArea" parent="." instance=ExtResource("4_np3e6")]
-position = Vector2(0, 5)
-action_name = "[ENTER] to open"
-interact_type = "openChest"
-interact_value = "openChest"
-
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 256
 collision_mask = 256
@@ -170,9 +164,14 @@ offset_top = -32.0
 offset_right = 118.0
 offset_bottom = -8.0
 theme_override_fonts/font = ExtResource("4_3un0a")
-text = "[ENTER] per aprire"
+text = "[INVIO] per aprire"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+show_behind_parent = true
+position = Vector2(0, 13)
+texture = ExtResource("4_gr8iq")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
