@@ -1,10 +1,13 @@
-[gd_scene load_steps=58 format=3 uid="uid://b3dvblv1v6hs"]
+[gd_scene load_steps=64 format=3 uid="uid://b3dvblv1v6hs"]
 
 [ext_resource type="Script" path="res://script/Player/Player.gd" id="1_t6g1t"]
 [ext_resource type="Texture2D" uid="uid://c1cc4j037diai" path="res://art/Player/Player.png" id="2_jcvpv"]
 [ext_resource type="Texture2D" uid="uid://b84fkwg61jg4g" path="res://art/Shadows/MediumShadow.png" id="3_1vnu6"]
 [ext_resource type="PackedScene" uid="uid://0cgjopmw7jb4" path="res://scenes/Box/hit_box.tscn" id="4_pe86v"]
 [ext_resource type="Script" path="res://script/Player/swordHitBox.gd" id="5_fbuaj"]
+[ext_resource type="PackedScene" uid="uid://kje7vcoucwfe" path="res://scenes/Box/hurt_box.tscn" id="6_3wgv3"]
+[ext_resource type="Script" path="res://script/Player/staminaBar.gd" id="7_3r268"]
+[ext_resource type="PackedScene" uid="uid://d1obrii3nhtg0" path="res://scenes/World/weather_control.tscn" id="8_3uhvi"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6lvrj"]
 
@@ -668,6 +671,20 @@ height = 34.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_uav5l"]
 radius = 31.0161
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y1nve"]
+radius = 6.0
+height = 18.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ou16m"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jufrk"]
+bg_color = Color(0.729412, 0.580392, 0.196078, 1)
+
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 y_sort_enabled = true
 position = Vector2(1, 2)
@@ -735,4 +752,34 @@ collision_mask = 256
 position = Vector2(0, -7)
 shape = SubResource("CircleShape2D_uav5l")
 
+[node name="HurtBox" parent="." instance=ExtResource("6_3wgv3")]
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="HurtBox" index="0"]
+position = Vector2(-1, -7)
+shape = SubResource("CapsuleShape2D_y1nve")
+
+[node name="StaminaTimer" type="Timer" parent="."]
+
+[node name="StaBar" type="ProgressBar" parent="." node_paths=PackedStringArray("player")]
+z_index = 10
+z_as_relative = false
+offset_left = -17.0
+offset_top = -30.0
+offset_right = 13.0
+offset_bottom = -26.0
+theme_override_styles/background = SubResource("StyleBoxFlat_ou16m")
+theme_override_styles/fill = SubResource("StyleBoxFlat_jufrk")
+value = 60.0
+show_percentage = false
+script = ExtResource("7_3r268")
+player = NodePath("..")
+
+[node name="weatherControl" parent="." instance=ExtResource("8_3uhvi")]
+
+[connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
+[connection signal="timeout" from="StaminaTimer" to="." method="_on_stamina_timer_timeout"]
+
 [editable path="HitBoxPivot/SwordHitBox"]
+[editable path="HurtBox"]
