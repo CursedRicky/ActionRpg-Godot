@@ -4,14 +4,19 @@ class_name Player
 #Variabili globali
 const ACCELERATION = 400
 const MAXSPEED = 125
-const FRICTION = 400 
+const FRICTION = 400
+var staminaRegeneration = 5
+var speed = MAXSPEED
+var DELTA
 
 @onready var swordHitBox = $HitBoxPivot/SwordHitBox
 @onready var animationPlayer = $AnimationPlayer
 @onready var animationTree = $AnimationTree
 @onready var interactLabel = $Interaction/InteractLabel
 @onready var animationState = animationTree.get("parameters/playback")
-@onready var all_interactions = []
+@onready var hurtBox = $HurtBox
+@onready var staminaTimer = $StaminaTimer
+@onready var staminaBar = $StaBar
 
 enum { #Variabili
 	MOVE, #Valore -> 0
@@ -20,7 +25,11 @@ enum { #Variabili
 }
 
 var state = MOVE
+var stats = PlayerStats
 var rollVector = Vector2.DOWN
+
+signal healtChange
+signal staminaChange
 
 func _ready():
 	animationTree.active = true
@@ -28,6 +37,7 @@ func _ready():
 	
 
 func _process(delta):
+	DELTA = delta
 	match state: #simile a switch (state)
 		MOVE: 
 			move(delta)
@@ -35,9 +45,22 @@ func _process(delta):
 			roll(delta)
 		ATTACK:
 			attack(delta)
+			
+	if stats.healt <= 0 :
+		death()
 	
-	#if Input.get_action_strength("space_bar") or Input.get_action_strength("left_click"):
-		#print("Ciao")
+	if stats.stamina >= 100:
+		staminaBar.visible = false
+	else : 
+		staminaBar.visible = true
+		if stats.canRegenerateStamina:
+			stats.stamina += staminaRegeneration * delta
+			emit_signal("staminaChange")
+			
+	if stats.stamina < 25 :
+		speed = MAXSPEED / 2
+	else :
+		speed = MAXSPEED
 
 func move(delta) :
 	var inputVector = Vector2.ZERO
@@ -53,7 +76,7 @@ func move(delta) :
 		animationTree.set("parameters/Attack/blend_position", inputVector)
 		animationTree.set("parameters/Roll/blend_position", inputVector)
 		animationState.travel("Run") #Cambia animazione quando cammini
-		velocity = velocity.move_toward(inputVector * MAXSPEED, ACCELERATION * delta)
+		velocity = velocity.move_toward(inputVector * speed, ACCELERATION * delta)
 	else :
 		animationState.travel("Idle") #Cambia animazione quando stai fermo
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
@@ -62,13 +85,17 @@ func move(delta) :
 	if Input.is_action_just_pressed("attack") :
 		state = ATTACK
 	
-	if Input.is_action_just_pressed("roll") :
+	if Input.is_action_just_pressed("roll") and (stats.stamina - 25) > 10:
 		state = ROLL
 
 func roll(delta):
-	velocity = rollVector * MAXSPEED * 1.25
+	velocity = rollVector * speed * 1.25
 	animationState.travel("Roll")
 	move_and_slide()
+	stats.stamina -= 1
+	emit_signal("staminaChange")
+	#stats.canRegenerateStamina = false
+	staminaTimer.start(3)
 
 func attack(delta):
 	velocity = Vector2.ZERO
@@ -81,5 +108,15 @@ func attackFinished():
 func rollFinished():
 	state = MOVE
 	
-func player():
+func death():
+	pass
+
+func _on_hurt_box_area_entered(area): #Il giocatore prende danno
+	stats.healt -= area.damage
+	hurtBox.startInvincibility(0.5)
+	hurtBox.createHitEffect()
+	emit_signal("healtChange")
+
+func _on_stamina_timer_timeout():
+	#stats.canRegenerateStamina = true
 	pass

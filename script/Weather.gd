@@ -1,0 +1,39 @@
+extends Node2D
+
+var currentWeather = "none"
+
+func _ready():
+	update()
+
+func _on_timer_timeout():
+	if currentWeather == "none":
+		currentWeather = "rain"
+		Global.weather = currentWeather
+		$AnimationPlayer.play("toRain")
+		#$Timer.wait_time = randf_range(180,300)
+		$Timer.wait_time = randf_range(10,18)
+		$Timer.start()
+	elif currentWeather == "rain":
+		currentWeather = "none"
+		Global.weather = currentWeather
+		$Timer.wait_time = randf_range(10,18)
+		#$Timer.wait_time = randf_range(480,600)
+		$Timer.start()
+
+func _process(delta):
+	Global.weather = currentWeather
+	update()
+		
+func update() :
+	if currentWeather == "none":
+		$rain.visible = false
+		$snow.visible = false
+		$rainColor.visible = false
+	elif currentWeather == "rain":
+		$rain.visible = true
+		$snow.visible = false
+		#$rainColor.visible = true
+	elif currentWeather == "snow":
+		$rain.visible = false
+		$snow.visible = true
+		$rainColor.visible = false

@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Bat
 
 const EnemyDeathEffect = preload("res://scenes/Enemy/Death/effect.tscn")
 
@@ -6,13 +7,21 @@ var speed = 50
 var knockback= Vector2.ZERO
 var playerIsInArea = false
 var player
-var healt = 3
+const MAXHEALT = 3
+var healt = MAXHEALT
 
-@onready var detArea = $DetectionArea/CollisionShape2D
+@onready var hurtBox = $HurtBox
+@onready var hpBar = $HPBar
+@onready var damageBar = $HPBar/DamageBar
+@onready var damageTimer = $HPBar/Timer
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	hpBar.max_value = MAXHEALT
+	hpBar.value = healt
+	damageBar.max_value = MAXHEALT
+	damageBar.value = healt
+	hpBar.visible = false
+	damageBar.visible = false
 
 func _physics_process(delta):
 	knockback = knockback.move_toward(Vector2.ZERO, delta*200)
@@ -21,15 +30,20 @@ func _physics_process(delta):
 		position += (player.position - position) / speed
 		
 	if healt<=0 :
-		queue_free() #Elimina nodo
-		var enemyDeathEffect = EnemyDeathEffect.instantiate() #Inizia animazione morte
+		queue_free() 
+		var enemyDeathEffect = EnemyDeathEffect.instantiate() 
 		get_parent().add_child(enemyDeathEffect)
-		enemyDeathEffect.global_position = global_position #Posizione l'effetto nella stessa posizione dell' pipistello
+		enemyDeathEffect.global_position = global_position
 	move_and_slide()
 
 func _on_hurt_box_area_entered(area):
+	hpBar.visible = true
+	damageBar.visible = true
 	healt -= area.damage
+	hpBar.value = healt
+	damageTimer.start()
 	knockback = area.knockbackVector * 125
+	hurtBox.createHitEffect()
 
 
 func _on_area_2d_body_entered(body):
@@ -41,3 +55,7 @@ func _on_area_2d_body_entered(body):
 func _on_area_2d_body_exited(body):
 	if body is Player :
 		playerIsInArea = false
+
+
+func _on_timer_timeout():
+	damageBar.value = healt

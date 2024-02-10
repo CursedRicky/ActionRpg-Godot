@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://s1mx18ptb5f"]
+[gd_scene load_steps=39 format=3 uid="uid://s1mx18ptb5f"]
 
 [ext_resource type="PackedScene" uid="uid://b3dvblv1v6hs" path="res://art/Player/Player.tscn" id="1_j2ubu"]
 [ext_resource type="Shader" path="res://art/Shader/Dark.gdshader" id="3_5e8rl"]
@@ -17,7 +17,10 @@
 [ext_resource type="PackedScene" uid="uid://c6g12kvhd5owi" path="res://scenes/World/Chest.tscn" id="16_gpxof"]
 [ext_resource type="PackedScene" uid="uid://delqnkvhl6im7" path="res://scenes/Enemy/bat.tscn" id="17_x24b4"]
 [ext_resource type="PackedScene" uid="uid://q8qsvw6m20hq" path="res://scenes/Enemy/slime.tscn" id="18_1fkxj"]
+[ext_resource type="Script" path="res://script/Player/healtBar.gd" id="19_3y8i8"]
 [ext_resource type="PackedScene" uid="uid://bbd8k0u4nqbmp" path="res://scenes/World/BigTree.tscn" id="19_eakjb"]
+[ext_resource type="Texture2D" uid="uid://b5lh6ci1xa7mi" path="res://art/casona2.png" id="20_3q8fq"]
+[ext_resource type="Texture2D" uid="uid://dpqeg5l0shcvh" path="res://art/Shadows/LargeShadow.png" id="21_xw1v5"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_82rqr"]
 noise_type = 4
@@ -3305,6 +3308,26 @@ sources/4 = SubResource("TileSetAtlasSource_x01to")
 sources/6 = SubResource("TileSetAtlasSource_vol0a")
 sources/7 = SubResource("TileSetAtlasSource_wa66p")
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lml30"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3xnrv"]
+bg_color = Color(0.329412, 0.678431, 0.552941, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v6ui0"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+shadow_color = Color(0, 0, 0, 0.27451)
+shadow_offset = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uxpu5"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tlr5g"]
+bg_color = Color(0.305882, 0.647059, 0.780392, 1)
+
 [node name="World" type="Node2D"]
 
 [node name="Water" type="Sprite2D" parent="."]
@@ -3377,7 +3400,7 @@ position = Vector2(376, 272)
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionTop" type="CollisionPolygon2D" parent="StaticBody2D"]
-polygon = PackedVector2Array(0, 0, 8, 8, 1928, 8, 1936, 0)
+polygon = PackedVector2Array(0, 0, 8, 8, 92.7251, 8, 118.945, 8, 1928, 8, 1936, 0)
 
 [node name="CollisionLeft" type="CollisionPolygon2D" parent="StaticBody2D"]
 polygon = PackedVector2Array(0, 0, 8, 8, 8, 864, 0, 880)
@@ -3432,23 +3455,139 @@ position = Vector2(144, 120)
 [node name="Node2D5" parent="ySort/Bushes" instance=ExtResource("14_qkswt")]
 position = Vector2(112, 288)
 
+[node name="Albero" parent="ySort/Bushes" instance=ExtResource("19_eakjb")]
+position = Vector2(352, 120)
+
 [node name="Chest" parent="ySort" instance=ExtResource("16_gpxof")]
 position = Vector2(497, 65)
 
-[node name="Bat" parent="ySort" instance=ExtResource("17_x24b4")]
+[node name="Enemy" type="Node2D" parent="ySort"]
+
+[node name="Slime3" parent="ySort/Enemy" instance=ExtResource("18_1fkxj")]
+position = Vector2(203, 336)
+
+[node name="Slime4" parent="ySort/Enemy" instance=ExtResource("18_1fkxj")]
+position = Vector2(316, 330)
+
+[node name="Slime5" parent="ySort/Enemy" instance=ExtResource("18_1fkxj")]
+position = Vector2(492, 282)
+
+[node name="Slime6" parent="ySort/Enemy" instance=ExtResource("18_1fkxj")]
+position = Vector2(589, 256)
+
+[node name="Bat4" parent="ySort/Enemy" instance=ExtResource("17_x24b4")]
+position = Vector2(420, 378)
+
+[node name="Bat5" parent="ySort/Enemy" instance=ExtResource("17_x24b4")]
+position = Vector2(604, 311)
+
+[node name="Bat6" parent="ySort/Enemy" instance=ExtResource("17_x24b4")]
+position = Vector2(72, 324)
+
+[node name="Bat7" parent="ySort/Enemy" instance=ExtResource("17_x24b4")]
+position = Vector2(269, 306)
+
+[node name="Bat" parent="ySort/Enemy" instance=ExtResource("17_x24b4")]
 position = Vector2(584, 144)
 
-[node name="Bat2" parent="ySort" instance=ExtResource("17_x24b4")]
+[node name="Bat2" parent="ySort/Enemy" instance=ExtResource("17_x24b4")]
 position = Vector2(448, 136)
 
-[node name="Bat3" parent="ySort" instance=ExtResource("17_x24b4")]
-position = Vector2(432, 240)
+[node name="Bat3" parent="ySort/Enemy" instance=ExtResource("17_x24b4")]
+position = Vector2(362, 214)
 
-[node name="Slime" parent="ySort" instance=ExtResource("18_1fkxj")]
+[node name="Slime" parent="ySort/Enemy" instance=ExtResource("18_1fkxj")]
 position = Vector2(128, 184)
 
-[node name="Slime2" parent="ySort" instance=ExtResource("18_1fkxj")]
+[node name="Slime2" parent="ySort/Enemy" instance=ExtResource("18_1fkxj")]
 position = Vector2(304, 96)
 
-[node name="Node2D" parent="ySort" instance=ExtResource("19_eakjb")]
-position = Vector2(352, 120)
+[node name="Barre" type="CanvasLayer" parent="."]
+
+[node name="HPBar" type="ProgressBar" parent="Barre" node_paths=PackedStringArray("player")]
+z_index = 10
+z_as_relative = false
+offset_left = 9.0
+offset_top = 9.0
+offset_right = 149.0
+offset_bottom = 13.0
+size_flags_vertical = 8
+theme_override_styles/background = SubResource("StyleBoxEmpty_lml30")
+theme_override_styles/fill = SubResource("StyleBoxFlat_3xnrv")
+value = 60.0
+show_percentage = false
+script = ExtResource("19_3y8i8")
+player = NodePath("../../ySort/Player")
+metadata/_edit_group_ = true
+
+[node name="DamageBar" type="ProgressBar" parent="Barre/HPBar"]
+z_index = 8
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_v6ui0")
+theme_override_styles/fill = SubResource("StyleBoxFlat_uxpu5")
+value = 80.0
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="Barre/HPBar"]
+wait_time = 0.4
+one_shot = true
+
+[node name="ManaBar" type="ProgressBar" parent="Barre" node_paths=PackedStringArray("player")]
+z_index = 10
+z_as_relative = false
+offset_left = 9.0
+offset_top = 20.0
+offset_right = 109.0
+offset_bottom = 24.0
+size_flags_vertical = 8
+theme_override_styles/background = SubResource("StyleBoxEmpty_lml30")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tlr5g")
+value = 60.0
+show_percentage = false
+script = ExtResource("19_3y8i8")
+player = NodePath("../../ySort/Player")
+metadata/_edit_group_ = true
+
+[node name="DamageBar" type="ProgressBar" parent="Barre/ManaBar"]
+z_index = 8
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_v6ui0")
+theme_override_styles/fill = SubResource("StyleBoxFlat_uxpu5")
+value = 80.0
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="Barre/ManaBar"]
+wait_time = 0.4
+one_shot = true
+
+[node name="Casona2" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(857, 104)
+scale = Vector2(1.40625, 1.40625)
+texture = ExtResource("20_3q8fq")
+
+[node name="LargeShadow" type="Sprite2D" parent="."]
+visible = false
+z_index = -1
+position = Vector2(855, 145)
+scale = Vector2(5.1625, 5.1625)
+texture = ExtResource("21_xw1v5")
+
+[connection signal="timeout" from="Barre/HPBar/Timer" to="Barre/HPBar" method="_on_timer_timeout"]
+[connection signal="timeout" from="Barre/ManaBar/Timer" to="Barre/ManaBar" method="_on_timer_timeout"]
+
+[editable path="ySort/Player"]
+[editable path="ySort/Player/HitBoxPivot/SwordHitBox"]
+[editable path="ySort/Player/HurtBox"]
