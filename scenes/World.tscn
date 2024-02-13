@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://s1mx18ptb5f"]
+[gd_scene load_steps=41 format=3 uid="uid://s1mx18ptb5f"]
 
 [ext_resource type="PackedScene" uid="uid://b3dvblv1v6hs" path="res://art/Player/Player.tscn" id="1_j2ubu"]
 [ext_resource type="Shader" path="res://art/Shader/Dark.gdshader" id="3_5e8rl"]
@@ -21,6 +21,8 @@
 [ext_resource type="PackedScene" uid="uid://bbd8k0u4nqbmp" path="res://scenes/World/BigTree.tscn" id="19_eakjb"]
 [ext_resource type="Texture2D" uid="uid://b5lh6ci1xa7mi" path="res://art/casona2.png" id="20_3q8fq"]
 [ext_resource type="Texture2D" uid="uid://dpqeg5l0shcvh" path="res://art/Shadows/LargeShadow.png" id="21_xw1v5"]
+[ext_resource type="AudioStream" uid="uid://b5sqsl81mido6" path="res://art/Music and Sounds/ost.mp3" id="22_jrg70"]
+[ext_resource type="PackedScene" uid="uid://b3int474d5shu" path="res://scenes/Enemy/ghost.tscn" id="23_6eh3m"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_82rqr"]
 noise_type = 4
@@ -3311,7 +3313,7 @@ sources/7 = SubResource("TileSetAtlasSource_wa66p")
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lml30"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3xnrv"]
-bg_color = Color(0.329412, 0.678431, 0.552941, 1)
+bg_color = Color(1, 0.392157, 0.392157, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v6ui0"]
 bg_color = Color(0.2, 0.2, 0.2, 1)
@@ -3415,8 +3417,12 @@ polygon = PackedVector2Array(1928, 8, 1936, 0, 1936, 880, 1928, 864)
 y_sort_enabled = true
 
 [node name="Player" parent="ySort" instance=ExtResource("1_j2ubu")]
-position = Vector2(57, 59)
+position = Vector2(56, 58)
 scale = Vector2(1.00523, 1)
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" parent="ySort/Player/DestroyOnDeath" index="0"]
+use_parent_material = true
 
 [node name="Torre" type="StaticBody2D" parent="ySort"]
 
@@ -3464,10 +3470,10 @@ position = Vector2(497, 65)
 [node name="Enemy" type="Node2D" parent="ySort"]
 
 [node name="Slime3" parent="ySort/Enemy" instance=ExtResource("18_1fkxj")]
-position = Vector2(203, 336)
+position = Vector2(217, 397)
 
 [node name="Slime4" parent="ySort/Enemy" instance=ExtResource("18_1fkxj")]
-position = Vector2(316, 330)
+position = Vector2(281, 461)
 
 [node name="Slime5" parent="ySort/Enemy" instance=ExtResource("18_1fkxj")]
 position = Vector2(492, 282)
@@ -3476,16 +3482,16 @@ position = Vector2(492, 282)
 position = Vector2(589, 256)
 
 [node name="Bat4" parent="ySort/Enemy" instance=ExtResource("17_x24b4")]
-position = Vector2(420, 378)
+position = Vector2(423, 470)
 
 [node name="Bat5" parent="ySort/Enemy" instance=ExtResource("17_x24b4")]
 position = Vector2(604, 311)
 
 [node name="Bat6" parent="ySort/Enemy" instance=ExtResource("17_x24b4")]
-position = Vector2(72, 324)
+position = Vector2(59, 409)
 
 [node name="Bat7" parent="ySort/Enemy" instance=ExtResource("17_x24b4")]
-position = Vector2(269, 306)
+position = Vector2(202, 162)
 
 [node name="Bat" parent="ySort/Enemy" instance=ExtResource("17_x24b4")]
 position = Vector2(584, 144)
@@ -3494,7 +3500,7 @@ position = Vector2(584, 144)
 position = Vector2(448, 136)
 
 [node name="Bat3" parent="ySort/Enemy" instance=ExtResource("17_x24b4")]
-position = Vector2(362, 214)
+position = Vector2(325, 356)
 
 [node name="Slime" parent="ySort/Enemy" instance=ExtResource("18_1fkxj")]
 position = Vector2(128, 184)
@@ -3585,9 +3591,17 @@ position = Vector2(855, 145)
 scale = Vector2(5.1625, 5.1625)
 texture = ExtResource("21_xw1v5")
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("22_jrg70")
+volume_db = -10.0
+autoplay = true
+
+[node name="Ghost" parent="." instance=ExtResource("23_6eh3m")]
+position = Vector2(154, 228)
+
 [connection signal="timeout" from="Barre/HPBar/Timer" to="Barre/HPBar" method="_on_timer_timeout"]
 [connection signal="timeout" from="Barre/ManaBar/Timer" to="Barre/ManaBar" method="_on_timer_timeout"]
 
 [editable path="ySort/Player"]
-[editable path="ySort/Player/HitBoxPivot/SwordHitBox"]
-[editable path="ySort/Player/HurtBox"]
+[editable path="ySort/Player/DestroyOnDeath/HitBoxPivot/SwordHitBox"]
+[editable path="ySort/Player/DestroyOnDeath/HurtBox"]

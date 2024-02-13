@@ -1,7 +1,8 @@
-[gd_scene load_steps=20 format=3 uid="uid://c6g12kvhd5owi"]
+[gd_scene load_steps=21 format=3 uid="uid://c6g12kvhd5owi"]
 
 [ext_resource type="Script" path="res://script/Chest.gd" id="1_88y3g"]
 [ext_resource type="Texture2D" uid="uid://ecvxf0csgkj2" path="res://art/World/Chest/cassaAnim.png" id="1_ihra6"]
+[ext_resource type="AudioStream" uid="uid://6pqq32xbcewx" path="res://art/Music and Sounds/chestOpening.mp3" id="2_ljktq"]
 [ext_resource type="FontFile" uid="uid://bqnjxpucg2re4" path="res://art/Font/font1.ttf" id="4_3un0a"]
 [ext_resource type="Texture2D" uid="uid://dpqeg5l0shcvh" path="res://art/Shadows/LargeShadow.png" id="4_gr8iq"]
 
@@ -67,6 +68,21 @@ tracks/1/keys = {
 "method": &"giveItemsToPlayer"
 }]
 }
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AudioStreamPlayer")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.309312,
+"stream": ExtResource("2_ljktq")
+}],
+"times": PackedFloat32Array(0.2)
+}
+tracks/2/use_blend = true
 
 [sub_resource type="Animation" id="Animation_4nies"]
 length = 0.001
@@ -172,6 +188,9 @@ vertical_alignment = 1
 show_behind_parent = true
 position = Vector2(0, 13)
 texture = ExtResource("4_gr8iq")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = 3.0
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]

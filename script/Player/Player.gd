@@ -9,19 +9,20 @@ var staminaRegeneration = 5
 var speed = MAXSPEED
 var DELTA
 
-@onready var swordHitBox = $HitBoxPivot/SwordHitBox
-@onready var animationPlayer = $AnimationPlayer
-@onready var animationTree = $AnimationTree
-@onready var interactLabel = $Interaction/InteractLabel
+@onready var swordHitBox = $DestroyOnDeath/HitBoxPivot/SwordHitBox
+@onready var animationPlayer = $DestroyOnDeath/AnimationPlayer
+@onready var animationTree = $DestroyOnDeath/AnimationTree
 @onready var animationState = animationTree.get("parameters/playback")
-@onready var hurtBox = $HurtBox
-@onready var staminaTimer = $StaminaTimer
-@onready var staminaBar = $StaBar
+@onready var hurtBox = $DestroyOnDeath/HurtBox
+@onready var staminaTimer = $DestroyOnDeath/StaminaTimer
+@onready var staminaBar = $DestroyOnDeath/StaBar
+@onready var blink = $Blink
 
 enum { #Variabili
 	MOVE, #Valore -> 0
 	ROLL, #Valore -> 1
-	ATTACK #Valore -> 2
+	ATTACK, #Valore -> 2
+	DEATH #Valore -> 3
 }
 
 var state = MOVE
@@ -32,6 +33,7 @@ signal healtChange
 signal staminaChange
 
 func _ready():
+	$DestroyOnDeath/HitBoxPivot/SwordHitBox/CollisionShape2D.disabled = true
 	animationTree.active = true
 	swordHitBox.knockbackVector = rollVector
 	
@@ -42,12 +44,14 @@ func _process(delta):
 		MOVE: 
 			move(delta)
 		ROLL:
-			roll(delta)
+			roll()
 		ATTACK:
-			attack(delta)
+			attack()
+		DEATH:
+			death()
 			
 	if stats.healt <= 0 :
-		death()
+		state = DEATH
 	
 	if stats.stamina >= 100:
 		staminaBar.visible = false
@@ -88,8 +92,8 @@ func move(delta) :
 	if Input.is_action_just_pressed("roll") and (stats.stamina - 25) > 10:
 		state = ROLL
 
-func roll(delta):
-	velocity = rollVector * speed * 1.25
+func roll():
+	velocity = rollVector * speed * 1.5
 	animationState.travel("Roll")
 	move_and_slide()
 	stats.stamina -= 1
@@ -97,7 +101,7 @@ func roll(delta):
 	#stats.canRegenerateStamina = false
 	staminaTimer.start(3)
 
-func attack(delta):
+func attack():
 	velocity = Vector2.ZERO
 	animationState.travel("Attack")
 	
@@ -109,14 +113,23 @@ func rollFinished():
 	state = MOVE
 	
 func death():
-	pass
+	$DestroyOnDeath.queue_free()
 
 func _on_hurt_box_area_entered(area): #Il giocatore prende danno
 	stats.healt -= area.damage
 	hurtBox.startInvincibility(0.5)
 	hurtBox.createHitEffect()
 	emit_signal("healtChange")
+	$HitEffect.play()
 
 func _on_stamina_timer_timeout():
 	#stats.canRegenerateStamina = true
 	pass
+
+
+func _on_hurt_box_invincibility_started():
+	blink.play("Start")
+
+
+func _on_hurt_box_invincibility_ended():
+	blink.play("Stop")

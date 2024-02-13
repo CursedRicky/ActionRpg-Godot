@@ -1,9 +1,11 @@
 extends Node2D
 
-var currentWeather = "none"
+var currentWeather = "rain"
 
 func _ready():
 	update()
+	if currentWeather == "rain":
+		$AnimationPlayer.play("toRain")
 
 func _on_timer_timeout():
 	if currentWeather == "none":
@@ -11,12 +13,13 @@ func _on_timer_timeout():
 		Global.weather = currentWeather
 		$AnimationPlayer.play("toRain")
 		#$Timer.wait_time = randf_range(180,300)
-		$Timer.wait_time = randf_range(10,18)
+		$Timer.wait_time = randf_range(60,80)
 		$Timer.start()
 	elif currentWeather == "rain":
 		currentWeather = "none"
 		Global.weather = currentWeather
-		$Timer.wait_time = randf_range(10,18)
+		$Timer.wait_time = randf_range(60,80)
+		$AudioStreamPlayer2D.stop()
 		#$Timer.wait_time = randf_range(480,600)
 		$Timer.start()
 
@@ -37,3 +40,6 @@ func update() :
 		$rain.visible = false
 		$snow.visible = true
 		$rainColor.visible = false
+
+func sound():
+	$AudioStreamPlayer2D.play()

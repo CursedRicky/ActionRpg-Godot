@@ -1,7 +1,7 @@
 extends CharacterBody2D
 class_name Slime
 
-const EnemyDeathEffect = preload("res://scenes/Enemy/Death/effect.tscn")
+const EnemyDeathEffect = preload("res://scenes/Enemy/Death/effectSlime.tscn")
 
 var speed = 40
 var knockback= Vector2.ZERO
@@ -31,7 +31,6 @@ func _physics_process(delta):
 	velocity = knockback
 	if playerIsInArea :
 		position += (player.position - position) / speed
-		
 	if healt<=0 :
 		queue_free() #Elimina nodo
 		var enemyDeathEffect = EnemyDeathEffect.instantiate() #Inizia animazione morte
@@ -47,6 +46,8 @@ func _on_hurt_box_area_entered(area): #Il mob è colpito dal giocatore
 	damageTimer.start()
 	knockback = area.knockbackVector * 200 #Prendi knockback
 	hurtBox.createHitEffect() #Avvia animazione colpo
+	$HitSound.play()
+	$AnimationPlayer2.play("Blink")
 
 
 func _on_area_2d_body_entered(body):
