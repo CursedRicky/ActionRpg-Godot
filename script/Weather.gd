@@ -13,12 +13,12 @@ func _on_timer_timeout():
 		Global.weather = currentWeather
 		$AnimationPlayer.play("toRain")
 		#$Timer.wait_time = randf_range(180,300)
-		$Timer.wait_time = randf_range(60,80)
+		#$Timer.wait_time = randf_range(60,80)
 		$Timer.start()
 	elif currentWeather == "rain":
 		currentWeather = "none"
 		Global.weather = currentWeather
-		$Timer.wait_time = randf_range(60,80)
+		#$Timer.wait_time = randf_range(60,80)
 		$AudioStreamPlayer2D.stop()
 		#$Timer.wait_time = randf_range(480,600)
 		$Timer.start()

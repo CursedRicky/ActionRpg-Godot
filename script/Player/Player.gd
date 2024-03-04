@@ -7,6 +7,7 @@ const MAXSPEED = 125
 const FRICTION = 400
 var staminaRegeneration = 5
 var speed = MAXSPEED
+var canMove = true
 var DELTA
 
 @onready var swordHitBox = $DestroyOnDeath/HitBoxPivot/SwordHitBox
@@ -14,9 +15,9 @@ var DELTA
 @onready var animationTree = $DestroyOnDeath/AnimationTree
 @onready var animationState = animationTree.get("parameters/playback")
 @onready var hurtBox = $DestroyOnDeath/HurtBox
-@onready var staminaTimer = $DestroyOnDeath/StaminaTimer
 @onready var staminaBar = $DestroyOnDeath/StaBar
 @onready var blink = $Blink
+@onready var inventoryUi = $inventoryUi
 
 enum { #Variabili
 	MOVE, #Valore -> 0
@@ -36,7 +37,7 @@ func _ready():
 	$DestroyOnDeath/HitBoxPivot/SwordHitBox/CollisionShape2D.disabled = true
 	animationTree.active = true
 	swordHitBox.knockbackVector = rollVector
-	
+	Global.set_player_reference(self)
 
 func _process(delta):
 	DELTA = delta
@@ -57,7 +58,7 @@ func _process(delta):
 		staminaBar.visible = false
 	else : 
 		staminaBar.visible = true
-		if stats.canRegenerateStamina:
+		if stats.canRegenerateStamina and canMove:
 			stats.stamina += staminaRegeneration * delta
 			emit_signal("staminaChange")
 			
@@ -65,32 +66,43 @@ func _process(delta):
 		speed = MAXSPEED / 2
 	else :
 		speed = MAXSPEED
+	#'''
+	if Input.is_action_just_pressed("inventory") :
+		inventoryUi.visible = !inventoryUi.visible
+		get_tree().paused = !get_tree().paused
+		
+	if inventoryUi.visible == true:
+		canMove = false
+	else :
+		canMove = true
+#'''
 
 func move(delta) :
-	var inputVector = Vector2.ZERO
-	inputVector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-	inputVector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
-	inputVector = inputVector.normalized() #Vettore normalizzato così che il pg non sia più veloce in diagonale
-	
-	if inputVector != Vector2.ZERO:
-		rollVector = inputVector
-		swordHitBox.knockbackVector = inputVector
-		animationTree.set("parameters/Idle/blend_position", inputVector)
-		animationTree.set("parameters/Run/blend_position", inputVector)
-		animationTree.set("parameters/Attack/blend_position", inputVector)
-		animationTree.set("parameters/Roll/blend_position", inputVector)
-		animationState.travel("Run") #Cambia animazione quando cammini
-		velocity = velocity.move_toward(inputVector * speed, ACCELERATION * delta)
-	else :
-		animationState.travel("Idle") #Cambia animazione quando stai fermo
-		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
-	move_and_slide()
-	
-	if Input.is_action_just_pressed("attack") :
-		state = ATTACK
-	
-	if Input.is_action_just_pressed("roll") and (stats.stamina - 25) > 10:
-		state = ROLL
+	if (canMove) :
+		var inputVector = Vector2.ZERO
+		inputVector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+		inputVector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+		inputVector = inputVector.normalized() #Vettore normalizzato così che il pg non sia più veloce in diagonale
+		
+		if inputVector != Vector2.ZERO:
+			rollVector = inputVector
+			swordHitBox.knockbackVector = inputVector
+			animationTree.set("parameters/Idle/blend_position", inputVector)
+			animationTree.set("parameters/Run/blend_position", inputVector)
+			animationTree.set("parameters/Attack/blend_position", inputVector)
+			animationTree.set("parameters/Roll/blend_position", inputVector)
+			animationState.travel("Run") #Cambia animazione quando cammini
+			velocity = velocity.move_toward(inputVector * speed, ACCELERATION * delta)
+		else :
+			animationState.travel("Idle") #Cambia animazione quando stai fermo
+			velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+		move_and_slide()
+		
+		if Input.is_action_just_pressed("attack") :
+			state = ATTACK
+		
+		if Input.is_action_just_pressed("roll") and (stats.stamina - 25) > 10:
+			state = ROLL
 
 func roll():
 	velocity = rollVector * speed * 1.5
@@ -98,8 +110,6 @@ func roll():
 	move_and_slide()
 	stats.stamina -= 1
 	emit_signal("staminaChange")
-	#stats.canRegenerateStamina = false
-	staminaTimer.start(3)
 
 func attack():
 	velocity = Vector2.ZERO
@@ -121,11 +131,6 @@ func _on_hurt_box_area_entered(area): #Il giocatore prende danno
 	hurtBox.createHitEffect()
 	emit_signal("healtChange")
 	$HitEffect.play()
-
-func _on_stamina_timer_timeout():
-	#stats.canRegenerateStamina = true
-	pass
-
 
 func _on_hurt_box_invincibility_started():
 	blink.play("Start")

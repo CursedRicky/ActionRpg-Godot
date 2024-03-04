@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://cplogghvuxew5"]
+
+[ext_resource type="Script" path="res://inventory/inventory_item.gd" id="1_hfe2l"]
+[ext_resource type="FontFile" uid="uid://bqnjxpucg2re4" path="res://art/Font/font1.ttf" id="3_t22r4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7vb7f"]
+radius = 12.0
+
+[node name="InventoryItem" type="Node2D" groups=["Items"]]
+script = ExtResource("1_hfe2l")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 32768
+collision_mask = 32768
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_7vb7f")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = -34.0
+offset_top = -26.0
+offset_right = 32.0
+offset_bottom = -3.0
+theme_override_fonts/font = ExtResource("3_t22r4")
+text = "[F] prendi"
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
