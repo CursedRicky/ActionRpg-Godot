@@ -28,6 +28,7 @@ func _process(delta):
 	update()
 		
 func update() :
+	
 	if currentWeather == "none":
 		$rain.visible = false
 		$snow.visible = false
