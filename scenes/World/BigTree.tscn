@@ -1,11 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bbd8k0u4nqbmp"]
+[gd_scene load_steps=5 format=3 uid="uid://bbd8k0u4nqbmp"]
 
-[ext_resource type="Shader" path="res://art/Shader/Dark.gdshader" id="1_3nojd"]
 [ext_resource type="Texture2D" uid="uid://cvyyt64tmybk3" path="res://art/World/Tree.png" id="1_itm6a"]
 [ext_resource type="Texture2D" uid="uid://dpqeg5l0shcvh" path="res://art/Shadows/LargeShadow.png" id="2_e37pp"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0haus"]
-shader = ExtResource("1_3nojd")
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8rh2w"]
 radius = 5.0
