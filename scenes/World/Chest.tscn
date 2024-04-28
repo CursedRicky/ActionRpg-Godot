@@ -175,6 +175,7 @@ collision_mask = 256
 shape = SubResource("CircleShape2D_6tkhf")
 
 [node name="Label" type="Label" parent="."]
+z_index = 10
 offset_left = -112.0
 offset_top = -32.0
 offset_right = 118.0

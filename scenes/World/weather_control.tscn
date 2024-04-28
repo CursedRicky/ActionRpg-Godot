@@ -6,12 +6,10 @@
 [ext_resource type="AudioStream" uid="uid://dq6j8moqac1a6" path="res://art/Music and Sounds/rain.mp3" id="4_ry185"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0tx8w"]
+particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(200, 100, 1)
-particle_flag_disable_z = true
 gravity = Vector3(0, 98, 0)
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
 
 [sub_resource type="Animation" id="Animation_kda31"]
 length = 0.001
@@ -22,18 +20,6 @@ tracks/0/path = NodePath("rain:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("rainColor:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -55,25 +41,13 @@ tracks/0/keys = {
 "update": 1,
 "values": [false, true]
 }
-tracks/1/type = "value"
+tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("rainColor:visible")
+tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
 "times": PackedFloat32Array(1.6),
 "transitions": PackedFloat32Array(1),
 "values": [{
@@ -92,7 +66,8 @@ _data = {
 script = ExtResource("1_qohbd")
 
 [node name="rainColor" type="CanvasModulate" parent="."]
-color = Color(0.741176, 0.741176, 0.741176, 1)
+visible = false
+color = Color(0.741176, 0.741176, 0.741176, 0.898039)
 
 [node name="rain" type="GPUParticles2D" parent="."]
 amount = 300
@@ -103,7 +78,7 @@ randomness = 1.0
 trail_lifetime = 7.0
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 80.0
+wait_time = 1800.0
 one_shot = true
 autostart = true
 
