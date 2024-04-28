@@ -39,7 +39,11 @@ func _physics_process(delta):
 func _on_hurt_box_area_entered(area):
 	hpBar.visible = true
 	damageBar.visible = true
-	healt -= area.damage
+	var critN = randi_range(1, 100)
+	if critN < area.critC:
+		healt -= area.damage + area.damage * 0.5
+	else :
+		healt -= area.damage
 	hpBar.value = healt
 	damageTimer.start()
 	knockback = area.knockbackVector * 125

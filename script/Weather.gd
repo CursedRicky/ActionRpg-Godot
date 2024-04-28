@@ -8,24 +8,29 @@ func _ready():
 		$AnimationPlayer.play("toRain")
 
 func _on_timer_timeout():
-	if currentWeather == "none":
-		currentWeather = "rain"
-		Global.weather = currentWeather
-		$AnimationPlayer.play("toRain")
-		#$Timer.wait_time = randf_range(180,300)
-		#$Timer.wait_time = randf_range(60,80)
-		$Timer.start()
-	elif currentWeather == "rain":
-		currentWeather = "none"
-		Global.weather = currentWeather
-		#$Timer.wait_time = randf_range(60,80)
-		$AudioStreamPlayer2D.stop()
-		#$Timer.wait_time = randf_range(480,600)
-		$Timer.start()
+	if Global.canRain:
+		if currentWeather == "none":
+			currentWeather = "rain"
+			Global.weather = currentWeather
+			$AnimationPlayer.play("toRain")
+			#$Timer.wait_time = randf_range(180,300)
+			#$Timer.wait_time = randf_range(60,80)
+			$Timer.start()
+		elif currentWeather == "rain":
+			currentWeather = "none"
+			Global.weather = currentWeather
+			#$Timer.wait_time = randf_range(60,80)
+			$AudioStreamPlayer2D.stop()
+			#$Timer.wait_time = randf_range(480,600)
+			$Timer.start()
 
 func _process(delta):
+	if !Global.canRain:
+		currentWeather = "none"
+		$AudioStreamPlayer2D.stop()
 	Global.weather = currentWeather
 	update()
+		
 		
 func update() :
 	

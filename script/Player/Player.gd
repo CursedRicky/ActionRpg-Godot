@@ -6,9 +6,12 @@ const ACCELERATION = 400
 const MAXSPEED = 125
 const FRICTION = 400
 var staminaRegeneration = 5
+var manaRegen = 1
 var speed = MAXSPEED
+var canMoveE = true
 var canMove = true
 var DELTA
+var canRegenMana = true
 
 @onready var swordHitBox = $DestroyOnDeath/HitBoxPivot/SwordHitBox
 @onready var animationPlayer = $DestroyOnDeath/AnimationPlayer
@@ -32,6 +35,7 @@ var rollVector = Vector2.DOWN
 
 signal healtChange
 signal staminaChange
+signal manaChange
 
 func _ready():
 	$DestroyOnDeath/HitBoxPivot/SwordHitBox/CollisionShape2D.disabled = true
@@ -40,45 +44,52 @@ func _ready():
 	Global.set_player_reference(self)
 
 func _process(delta):
-	DELTA = delta
-	match state: #simile a switch (state)
-		MOVE: 
-			move(delta)
-		ROLL:
-			roll()
-		ATTACK:
-			attack()
-		DEATH:
-			death()
-			
-	if stats.healt <= 0 :
-		state = DEATH
-	
-	if stats.stamina >= 100:
-		staminaBar.visible = false
-	else : 
-		staminaBar.visible = true
-		if stats.canRegenerateStamina and canMove:
-			stats.stamina += staminaRegeneration * delta
-			emit_signal("staminaChange")
-			
-	if stats.stamina < 25 :
-		speed = MAXSPEED / 2
-	else :
-		speed = MAXSPEED
-	#'''
-	if Input.is_action_just_pressed("inventory") :
-		inventoryUi.visible = !inventoryUi.visible
-		get_tree().paused = !get_tree().paused
+	if canMove:
+		DELTA = delta
+		match state: #simile a switch (state)
+			MOVE: 
+				move(delta)
+			ROLL:
+				roll()
+			ATTACK:
+				attack()
+			DEATH:
+				death()
+				
+		if stats.healt <= 0 :
+			state = DEATH
 		
-	if inventoryUi.visible == true:
-		canMove = false
-	else :
-		canMove = true
+		if stats.stamina >= 100:
+			staminaBar.visible = false
+		else : 
+			staminaBar.visible = true
+			if stats.canRegenerateStamina and canMoveE and canMove:
+				stats.stamina += staminaRegeneration * delta
+				emit_signal("staminaChange")
+				
+		if canRegenMana :
+			stats.mana += manaRegen * delta
+			emit_signal("manaChange")
+				
+		if stats.stamina < 25 :
+			speed = MAXSPEED / 2
+		else :
+			speed = MAXSPEED
+		#'''
+		if Input.is_action_just_pressed("inventory"):
+			inventoryUi.visible = !inventoryUi.visible
+			get_tree().paused = !get_tree().paused
+			
+		if inventoryUi.visible == true:
+			canMoveE = false
+		else :
+			canMoveE = true
+	else:
+		animationPlayer.stop()
 #'''
 
 func move(delta) :
-	if (canMove) :
+	if (canMoveE and canMove) :
 		var inputVector = Vector2.ZERO
 		inputVector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 		inputVector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
@@ -131,6 +142,13 @@ func _on_hurt_box_area_entered(area): #Il giocatore prende danno
 	hurtBox.createHitEffect()
 	emit_signal("healtChange")
 	$HitEffect.play()
+	
+func _casting(manaCost):
+	stats.mana -= manaCost
+	canRegenMana = false
+	emit_signal("manaChange")
+	await get_tree().create_timer(1).timeout
+	canRegenMana = true
 
 func _on_hurt_box_invincibility_started():
 	blink.play("Start")

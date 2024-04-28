@@ -41,7 +41,11 @@ func _physics_process(delta):
 func _on_hurt_box_area_entered(area): #Il mob è colpito dal giocatore
 	hpBar.visible = true #Rendi la barra degli Hp visibile solo dopo che il mob ha preso danno
 	damageBar.visible = true
-	healt -= area.damage #Mob prende danno
+	var critN = randi_range(1, 100)
+	if critN < area.critC:
+		healt -= area.damage + area.damage * 0.5 #Danno da critico 150%
+	else :
+		healt -= area.damage #Mob prende danno
 	hpBar.value = healt #Aggiorna barra HP
 	damageTimer.start()
 	knockback = area.knockbackVector * 200 #Prendi knockback

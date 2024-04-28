@@ -11,6 +11,8 @@ var enter = false
 @onready var interaction_area = $InteractionArea
 @onready var label = $Label
 
+@export var labelV : bool = false
+
 func _ready(): 
 	animationTree.active = true
 	animationState.travel("Idle")
@@ -24,7 +26,7 @@ func giveItemsToPlayer() :
 	
 func _process(delta):
 	if !lootable:
-		label.visible = enter
+		label.visible = enter and labelV
 	else :
 		label.visible = false
 	

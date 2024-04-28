@@ -1,8 +1,12 @@
 extends Node
 
+var canRain = true
 var weather = "none"
 var player_node: Node = null
 @onready var inventory_slot_scene = preload("res://inventory/inventory_slots_2.tscn")
+
+var playerEsce = false
+var coord
 
 var inventory = []
 
