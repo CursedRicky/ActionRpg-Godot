@@ -1,0 +1,91 @@
+[gd_scene load_steps=5 format=3 uid="uid://dq6bk3oxujsc4"]
+
+[ext_resource type="Script" path="res://UI/Script/MainUI.gd" id="1_dtfuy"]
+[ext_resource type="Texture2D" uid="uid://cgv4kcudbbe0y" path="res://art/sfondo.png" id="2_a7ea4"]
+[ext_resource type="FontFile" uid="uid://bqnjxpucg2re4" path="res://art/Font/font1.ttf" id="2_fxffu"]
+[ext_resource type="Theme" uid="uid://dxigj16gs6rfw" path="res://UI/tema.tres" id="3_bvcxb"]
+
+[node name="MainUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -320.0
+offset_bottom = -180.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dtfuy")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(160, 90)
+scale = Vector2(0.64, 0.669145)
+texture = ExtResource("2_a7ea4")
+
+[node name="Label" type="Label" parent="Sprite2D"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -407.0
+offset_top = -82.0
+offset_right = -95.0
+offset_bottom = -19.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 1
+theme_override_fonts/font = ExtResource("2_fxffu")
+theme_override_font_sizes/font_size = 64
+text = "VideoGiuoco"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Sprite2D"]
+layer = 2
+
+[node name="Gioca" type="Button" parent="Sprite2D/CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.337
+anchor_top = 0.561
+anchor_right = 0.653
+anchor_bottom = 0.683
+offset_left = 10.16
+offset_top = -21.98
+offset_right = 10.04
+offset_bottom = -20.94
+scale = Vector2(0.75, 0.75)
+theme = ExtResource("3_bvcxb")
+theme_override_fonts/font = ExtResource("2_fxffu")
+text = "Gioca"
+
+[node name="Comandi" type="Button" parent="Sprite2D/CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.337
+anchor_top = 0.561
+anchor_right = 0.653
+anchor_bottom = 0.683
+offset_left = 10.16
+offset_top = 2.01999
+offset_right = 10.04
+offset_bottom = 3.06
+scale = Vector2(0.75, 0.75)
+theme = ExtResource("3_bvcxb")
+theme_override_fonts/font = ExtResource("2_fxffu")
+text = "comandi"
+
+[node name="Exit" type="Button" parent="Sprite2D/CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.337
+anchor_top = 0.561
+anchor_right = 0.653
+anchor_bottom = 0.683
+offset_left = 10.16
+offset_top = 27.02
+offset_right = 10.04
+offset_bottom = 28.06
+scale = Vector2(0.75, 0.75)
+theme = ExtResource("3_bvcxb")
+theme_override_fonts/font = ExtResource("2_fxffu")
+text = "Esci"
+
+[connection signal="pressed" from="Sprite2D/CanvasLayer/Gioca" to="." method="_on_gioca_pressed"]
+[connection signal="pressed" from="Sprite2D/CanvasLayer/Comandi" to="." method="_on_comandi_pressed"]
+[connection signal="pressed" from="Sprite2D/CanvasLayer/Exit" to="." method="_on_exit_pressed"]
