@@ -1,9 +1,94 @@
-[gd_scene load_steps=5 format=3 uid="uid://dq6bk3oxujsc4"]
+[gd_scene load_steps=8 format=3 uid="uid://dq6bk3oxujsc4"]
 
 [ext_resource type="Script" path="res://UI/Script/MainUI.gd" id="1_dtfuy"]
 [ext_resource type="Texture2D" uid="uid://cgv4kcudbbe0y" path="res://art/sfondo.png" id="2_a7ea4"]
 [ext_resource type="FontFile" uid="uid://bqnjxpucg2re4" path="res://art/Font/font1.ttf" id="2_fxffu"]
 [ext_resource type="Theme" uid="uid://dxigj16gs6rfw" path="res://UI/tema.tres" id="3_bvcxb"]
+
+[sub_resource type="Animation" id="Animation_cflqc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D/CanvasLayer/Gioca:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/CanvasLayer/Comandi:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D/CanvasLayer/Exit:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_n5ad7"]
+resource_name = "pulsanti"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D/CanvasLayer/Gioca:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/CanvasLayer/Comandi:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D/CanvasLayer/Exit:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3dwwy"]
+_data = {
+"RESET": SubResource("Animation_cflqc"),
+"pulsanti": SubResource("Animation_n5ad7")
+}
 
 [node name="MainUI" type="Control"]
 layout_mode = 3
@@ -85,6 +170,11 @@ scale = Vector2(0.75, 0.75)
 theme = ExtResource("3_bvcxb")
 theme_override_fonts/font = ExtResource("2_fxffu")
 text = "Esci"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_3dwwy")
+}
 
 [connection signal="pressed" from="Sprite2D/CanvasLayer/Gioca" to="." method="_on_gioca_pressed"]
 [connection signal="pressed" from="Sprite2D/CanvasLayer/Comandi" to="." method="_on_comandi_pressed"]
