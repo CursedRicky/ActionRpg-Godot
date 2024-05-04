@@ -36,14 +36,20 @@ func _physics_process(delta):
 		enemyDeathEffect.global_position = global_position
 	move_and_slide()
 
+var inArea = false
+
 func _on_hurt_box_area_entered(area):
 	hpBar.visible = true
 	damageBar.visible = true
 	var critN = randi_range(1, 100)
-	if critN < area.critC:
-		healt -= area.damage + area.damage * 0.5
-	else :
-		healt -= area.damage
+	if !area.dps:
+		if area.canCrit and critN < PlayerStats.crit:
+			healt -= area.damage + area.damage * 0.5 #Danno da critico 150%
+		else :
+			healt -= area.damage #Mob prende danno
+	else:
+		inArea = true
+		dpsDamage(area)
 	hpBar.value = healt
 	damageTimer.start()
 	knockback = area.knockbackVector * 125
@@ -51,6 +57,9 @@ func _on_hurt_box_area_entered(area):
 	$Hit.play()
 	$AnimationPlayer.play("Blink")
 
+func dpsDamage(area):
+	while inArea:
+		healt -= area.damage
 
 func _on_area_2d_body_entered(body):
 	if body is Player :
@@ -65,3 +74,7 @@ func _on_area_2d_body_exited(body):
 
 func _on_timer_timeout():
 	damageBar.value = healt
+
+
+func _on_hurt_box_area_exited(area):
+	inArea = false

@@ -6,7 +6,6 @@ const ACCELERATION = 400
 const MAXSPEED = 125
 const FRICTION = 400
 var staminaRegeneration = 5
-var manaRegen = 1
 var speed = MAXSPEED
 var canMoveE = true
 var canMove = true
@@ -44,7 +43,7 @@ func _ready():
 	Global.set_player_reference(self)
 
 func _process(delta):
-	if canMove:
+	if canMove and !Global.death:
 		DELTA = delta
 		match state: #simile a switch (state)
 			MOVE: 
@@ -67,15 +66,16 @@ func _process(delta):
 				stats.stamina += staminaRegeneration * delta
 				emit_signal("staminaChange")
 				
-		if canRegenMana :
-			stats.mana += manaRegen * delta
+		if canRegenMana and stats.mana < stats.maxMana:
+			stats.mana += PlayerStats.manaRegen * delta
 			emit_signal("manaChange")
 				
 		if stats.stamina < 25 :
 			speed = MAXSPEED / 2
 		else :
 			speed = MAXSPEED
-		#'''
+			
+		'''
 		if Input.is_action_just_pressed("inventory"):
 			inventoryUi.visible = !inventoryUi.visible
 			get_tree().paused = !get_tree().paused
@@ -84,7 +84,9 @@ func _process(delta):
 			canMoveE = false
 		else :
 			canMoveE = true
-	else:
+		'''
+		
+	elif !Global.death:
 		animationPlayer.stop()
 #'''
 
@@ -134,7 +136,8 @@ func rollFinished():
 	state = MOVE
 	
 func death():
-	$DestroyOnDeath.queue_free()
+	Global.death = true
+	SceneTransition._scene_transition("res://scenes/Player/Death.tscn")
 
 func _on_hurt_box_area_entered(area): #Il giocatore prende danno
 	stats.healt -= area.damage
