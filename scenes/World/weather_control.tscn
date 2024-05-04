@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://d1obrii3nhtg0"]
 
 [ext_resource type="Texture2D" uid="uid://cgrwjtqajextu" path="res://art/Wheater/rain.png" id="1_jup5u"]
-[ext_resource type="Script" path="res://script/Weather.gd" id="1_qohbd"]
+[ext_resource type="Script" path="res://script/World/Weather.gd" id="1_qohbd"]
 [ext_resource type="Texture2D" uid="uid://bmowsfs67ne6x" path="res://art/Wheater/snow.png" id="2_menqv"]
 [ext_resource type="AudioStream" uid="uid://dq6j8moqac1a6" path="res://art/Music and Sounds/rain.mp3" id="4_ry185"]
 

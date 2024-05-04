@@ -1,6 +1,6 @@
 [gd_scene load_steps=21 format=3 uid="uid://c6g12kvhd5owi"]
 
-[ext_resource type="Script" path="res://script/Chest.gd" id="1_88y3g"]
+[ext_resource type="Script" path="res://script/World/Chest.gd" id="1_88y3g"]
 [ext_resource type="Texture2D" uid="uid://ecvxf0csgkj2" path="res://art/World/Chest/cassaAnim.png" id="1_ihra6"]
 [ext_resource type="AudioStream" uid="uid://6pqq32xbcewx" path="res://art/Music and Sounds/chestOpening.mp3" id="2_ljktq"]
 [ext_resource type="FontFile" uid="uid://bqnjxpucg2re4" path="res://art/Font/font1.ttf" id="4_3un0a"]

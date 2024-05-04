@@ -41,10 +41,12 @@ _data = {
 }
 
 [node name="Node2D" type="CanvasLayer"]
+process_mode = 3
 script = ExtResource("1_oi6wi")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0)
+top_level = true
 z_index = 100
 anchors_preset = 15
 anchor_right = 1.0
