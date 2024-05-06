@@ -20,6 +20,7 @@ var canRegenMana = true
 @onready var staminaBar = $DestroyOnDeath/StaBar
 @onready var blink = $Blink
 @onready var inventoryUi = $inventoryUi
+@onready var invisibleAnim = $"DestroyOnDeath/Invisibilità/Invisible"
 
 enum { #Variabili
 	MOVE, #Valore -> 0
@@ -74,6 +75,7 @@ func _process(delta):
 			speed = MAXSPEED / 2
 		else :
 			speed = MAXSPEED
+		
 			
 		'''
 		if Input.is_action_just_pressed("inventory"):
@@ -131,6 +133,7 @@ func attack():
 func attackFinished():
 	state = MOVE
 	velocity = velocity / 2
+	Global.isInvisible = false
 	
 func rollFinished():
 	state = MOVE
@@ -144,7 +147,11 @@ func _on_hurt_box_area_entered(area): #Il giocatore prende danno
 	hurtBox.startInvincibility(0.5)
 	hurtBox.createHitEffect()
 	emit_signal("healtChange")
+	Global.isInvisible = false
 	$HitEffect.play()
+	
+func healing():
+	emit_signal("healtChange")
 	
 func _casting(manaCost):
 	stats.mana -= manaCost

@@ -26,7 +26,7 @@ func _ready():
 func _physics_process(delta):
 	knockback = knockback.move_toward(Vector2.ZERO, delta*200)
 	velocity = knockback
-	if playerIsInArea :
+	if playerIsInArea and !Global.isInvisible:
 		position += (player.position - position) / speed
 		
 	if healt<=0 :
@@ -43,6 +43,9 @@ func _on_hurt_box_area_entered(area):
 	damageBar.visible = true
 	var critN = randi_range(1, 100)
 	if !area.dps:
+		if Global.isInvisible:
+			area.damage *= 1.5
+			
 		if area.canCrit and critN < PlayerStats.crit:
 			healt -= area.damage + area.damage * 0.5 #Danno da critico 150%
 		else :
@@ -50,6 +53,9 @@ func _on_hurt_box_area_entered(area):
 	else:
 		inArea = true
 		dpsDamage(area)
+	if Global.isInvisible:
+		area.damage /= 1.5
+		Global.isInvisible = false
 	hpBar.value = healt
 	damageTimer.start()
 	knockback = area.knockbackVector * 125

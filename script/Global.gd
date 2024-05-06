@@ -7,6 +7,8 @@ var player_node: Player = null
 var shake = false
 var death = false
 
+var isInvisible = false
+
 var isInventoryOpen = true
 
 var playerEsce = false
