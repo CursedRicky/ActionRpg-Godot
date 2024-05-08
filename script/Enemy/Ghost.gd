@@ -16,6 +16,7 @@ var healt = MAXHEALT
 @onready var hpBar = $HPBar
 @onready var damageBar = $HPBar/DamageBar
 @onready var damageTimer = $HPBar/Timer
+@onready var origin = $Origin
 
 func _ready():
 	hpBar.max_value = MAXHEALT
@@ -31,8 +32,13 @@ func _physics_process(delta):
 	velocity = knockback
 	if playerIsInArea and !Global.isInvisible:
 		position += (player.position - position) / speed
+		if position > player.position:
+			$AnimatedSprite2D.flip_h = true
+		else : 
+			$AnimatedSprite2D.flip_h = false
 		
-	if healt<=0 :
+	if healt<=0.5 :
+		PlayerStats.exp += randi_range(2,4)
 		queue_free()
 		var enemyDeathEffect = EnemyDeathEffect.instantiate() #Inizia animazione morte
 		get_parent().add_child(enemyDeathEffect)
@@ -43,24 +49,31 @@ func _physics_process(delta):
 var inArea = false
 
 func _on_hurt_box_area_entered(area):
-	hpBar.visible = true
+	hpBar.visible = true #Rendi la barra degli Hp visibile solo dopo che il mob ha preso danno
 	damageBar.visible = true
+	var areaD = area.damage
+	var damage = 0
+	var crit = false
+	area.damage *= randf_range(1, 1.2)
 	var critN = randi_range(1, 100)
 	if !area.dps:
 		if Global.isInvisible:
 			area.damage *= 1.5
-			
 		if area.canCrit and critN < PlayerStats.crit:
-			healt -= area.damage + area.damage * 0.5 #Danno da critico 150%
+			crit = true
+			damage = area.damage + area.damage * 0.5 #Danno da critico 150%
+			healt-=damage
 		else :
-			healt -= area.damage #Mob prende danno
+			damage = area.damage #Mob prende danno
+			healt-=damage
 	else:
 		inArea = true
 		dpsDamage(area)
 	if Global.isInvisible:
-		area.damage /= 1.5
 		Global.isInvisible = false
-	hpBar.value = healt
+	DamageNumber.dispay_number(damage,origin.global_position, crit)
+	area.damage = areaD
+	hpBar.value = healt #Aggiorna barra HP
 	damageTimer.start()
 	knockback = area.knockbackVector * 125
 	hurtBox.createHitEffect()

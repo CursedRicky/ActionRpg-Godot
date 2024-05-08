@@ -1,22 +1,20 @@
 extends CharacterBody2D
-class_name Slime
+class_name Goblin
 
-const EnemyDeathEffect = preload("res://scenes/Enemy/Death/effectSlime.tscn")
+const EnemyDeathEffect = preload("res://scenes/Enemy/Death/effectGoblin.tscn")
 
-var speed = 40
+var speed = 50
 var knockback= Vector2.ZERO
 var playerIsInArea = false
 var player
-var DELTA
-
-const MAXHEALT = 5
+const MAXHEALT = 8
 var healt = MAXHEALT
 
 @onready var hurtBox = $HurtBox
 @onready var hpBar = $HPBar
 @onready var damageBar = $HPBar/DamageBar
 @onready var damageTimer = $HPBar/Timer
-@onready var dmnOrigin = $DMOrigin
+@onready var origin = $Origin
 
 func _ready():
 	hpBar.max_value = MAXHEALT
@@ -27,26 +25,28 @@ func _ready():
 	damageBar.visible = false
 
 func _physics_process(delta):
-	DELTA = delta
 	knockback = knockback.move_toward(Vector2.ZERO, delta*200)
 	velocity = knockback
 	if playerIsInArea and !Global.isInvisible:
+		$AnimatedSprite2D.play("default")
 		position += (player.position - position) / speed
 		if position > player.position:
-			$Sprite2D.flip_h = true
+			$AnimatedSprite2D.flip_h = false
 		else : 
-			$Sprite2D.flip_h = false
+			$AnimatedSprite2D.flip_h = true
+	else : 
+		$AnimatedSprite2D.play("Idle")
 	if healt<=0.5 :
-		PlayerStats.exp += randi_range(1,3)
-		queue_free() #Elimina nodo
-		var enemyDeathEffect = EnemyDeathEffect.instantiate() #Inizia animazione morte
+		PlayerStats.exp += randi_range(4,6)
+		queue_free() 
+		var enemyDeathEffect = EnemyDeathEffect.instantiate() 
 		get_parent().add_child(enemyDeathEffect)
-		enemyDeathEffect.global_position = global_position #Posizione l'effetto nella stessa posizione dello slime
+		enemyDeathEffect.global_position = global_position
 	move_and_slide()
 
 var inArea = false
 
-func _on_hurt_box_area_entered(area): #Il mob è colpito dal giocatore
+func _on_hurt_box_area_entered(area):
 	hpBar.visible = true #Rendi la barra degli Hp visibile solo dopo che il mob ha preso danno
 	damageBar.visible = true
 	var areaD = area.damage
@@ -69,19 +69,18 @@ func _on_hurt_box_area_entered(area): #Il mob è colpito dal giocatore
 		dpsDamage(area)
 	if Global.isInvisible:
 		Global.isInvisible = false
-	DamageNumber.dispay_number(damage, dmnOrigin.global_position, crit)
+	DamageNumber.dispay_number(damage, origin.global_position, crit)
 	area.damage = areaD
 	hpBar.value = healt #Aggiorna barra HP
 	damageTimer.start()
-	knockback = area.knockbackVector * 200 #Prendi knockback
-	hurtBox.createHitEffect() #Avvia animazione colpo
-	$HitSound.play()
-	$AnimationPlayer2.play("Blink")
+	knockback = area.knockbackVector * 125
+	hurtBox.createHitEffect()
+	$Hit.play()
+	$AnimationPlayer.play("Blink")
 
 func dpsDamage(area):
 	while inArea:
 		healt -= area.damage
-
 
 func _on_area_2d_body_entered(body):
 	if body is Player :
@@ -91,7 +90,6 @@ func _on_area_2d_body_entered(body):
 
 func _on_area_2d_body_exited(body):
 	if body is Player :
-		velocity = velocity.move_toward(Vector2.ZERO, 400*DELTA)
 		playerIsInArea = false
 
 

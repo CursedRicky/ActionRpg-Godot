@@ -8,6 +8,10 @@ extends Node
 @export var crit = 15
 @export var manaRegen = 1
 
+var lvl = 0
+var exp = 0
+var maxExp = 10
+
 var gold = 0
 
 var canRegenerateStamina = true

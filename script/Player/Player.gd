@@ -36,6 +36,7 @@ var rollVector = Vector2.DOWN
 signal healtChange
 signal staminaChange
 signal manaChange
+signal lvlUp
 
 func _ready():
 	$DestroyOnDeath/HitBoxPivot/SwordHitBox/CollisionShape2D.disabled = true
@@ -45,6 +46,7 @@ func _ready():
 
 func _process(delta):
 	if canMove and !Global.death:
+		lvlUpC()
 		DELTA = delta
 		match state: #simile a switch (state)
 			MOVE: 
@@ -118,6 +120,18 @@ func move(delta) :
 		
 		if Input.is_action_just_pressed("roll") and (stats.stamina - 25) > 10:
 			state = ROLL
+
+func lvlUpC():
+	if PlayerStats.exp == PlayerStats.maxExp:
+		PlayerStats.lvl += 1
+		PlayerStats.exp = 1
+		PlayerStats.maxExp *= 1.3
+	elif PlayerStats.exp > PlayerStats.maxExp:
+		var temp =  PlayerStats.exp - PlayerStats.maxExp
+		PlayerStats.lvl += 1
+		PlayerStats.exp = temp + 1
+		PlayerStats.maxExp *= 1.3
+	emit_signal("lvlUp")
 
 func roll():
 	velocity = rollVector * speed * 1.5

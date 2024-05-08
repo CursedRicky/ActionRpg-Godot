@@ -6,13 +6,12 @@ var invisibleControl = false
 @onready var timer = $"../Barre/Panel2/Control/Timer"
 @onready var CD = $"../Barre/Panel2/Control/CD"
 @onready var time = $"../Barre/Panel2/Control/Time"
-@onready var insibileAnim = %Invisible
+@onready var insibileAnim = $Invisible
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	CD.max_value = timer.wait_time
 	time.visible = false
-	Global.isInvisible = false
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -22,7 +21,6 @@ func _process(delta):
 	if canCast:
 		if Input.is_action_just_pressed("2"):
 			if PlayerStats.mana >= 50:
-				insibileAnim.play("invisible")
 				timer.start()
 				time.visible = true
 				$"../.."._casting(50)
@@ -30,10 +28,12 @@ func _process(delta):
 				invistimer.start()
 				Global.isInvisible = true
 				invisibleControl = true
-	await get_tree().create_timer(0.1).timeout
-	if !Global.isInvisible and invisibleControl:
-		insibileAnim.play("notInv")
+	if Global.isInvisible and invisibleControl:
+		insibileAnim.play("invisible")
+	elif !Global.isInvisible and invisibleControl:
+		insibileAnim.play("noInvis")
 		invisibleControl = false
+	
 
 
 func _on_invis_timer_timeout():
@@ -41,5 +41,4 @@ func _on_invis_timer_timeout():
 
 func _on_timer_timeout():
 	time.visible = false
-	await get_tree().create_timer(0.1).timeout
 	canCast = true
