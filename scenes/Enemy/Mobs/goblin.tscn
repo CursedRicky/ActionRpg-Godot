@@ -1,60 +1,73 @@
-[gd_scene load_steps=28 format=3 uid="uid://delqnkvhl6im7"]
+[gd_scene load_steps=27 format=3 uid="uid://d1yw8r8yk5chj"]
 
-[ext_resource type="Script" path="res://script/Enemy/Bat.gd" id="1_f4nel"]
-[ext_resource type="Shader" path="res://art/Shader/Blink.gdshader" id="2_7dijc"]
-[ext_resource type="Texture2D" uid="uid://b2k0uuo0pk1ms" path="res://art/Enemies/Bat.png" id="2_vb75s"]
-[ext_resource type="PackedScene" uid="uid://kje7vcoucwfe" path="res://scenes/Box/hurt_box.tscn" id="3_driar"]
-[ext_resource type="Texture2D" uid="uid://ddpykgcgqo0ve" path="res://art/Shadows/SmallShadow.png" id="3_ihbxk"]
-[ext_resource type="PackedScene" uid="uid://0cgjopmw7jb4" path="res://scenes/Box/hit_box.tscn" id="5_5qyes"]
-[ext_resource type="PackedScene" uid="uid://d3q5a0ppcdkug" path="res://scenes/Box/stats.tscn" id="7_hxs30"]
-[ext_resource type="AudioStream" uid="uid://1ji7u6dji25x" path="res://art/Music and Sounds/Bat/Bat.mp3" id="7_qx0un"]
-[ext_resource type="AudioStream" uid="uid://chwcwxwxiaci5" path="res://art/Music and Sounds/Bat/Attacked.mp3" id="8_2rmkp"]
+[ext_resource type="Script" path="res://script/Enemy/Goblin.gd" id="1_us0cs"]
+[ext_resource type="Texture2D" uid="uid://dnunl0xnikiao" path="res://art/Enemies/goblin.png" id="2_5sw45"]
+[ext_resource type="Texture2D" uid="uid://ddpykgcgqo0ve" path="res://art/Shadows/SmallShadow.png" id="3_kpogc"]
+[ext_resource type="PackedScene" uid="uid://kje7vcoucwfe" path="res://scenes/Box/hurt_box.tscn" id="4_oxllb"]
+[ext_resource type="PackedScene" uid="uid://0cgjopmw7jb4" path="res://scenes/Box/hit_box.tscn" id="5_24n4v"]
+[ext_resource type="PackedScene" uid="uid://d3q5a0ppcdkug" path="res://scenes/Box/stats.tscn" id="6_ud6x5"]
+[ext_resource type="AudioStream" uid="uid://6yw0b181c4gj" path="res://art/Music and Sounds/Goblin/hitGoblin.mp3" id="8_vq8hb"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hh713"]
-shader = ExtResource("2_7dijc")
-shader_parameter/active = false
+[sub_resource type="AtlasTexture" id="AtlasTexture_8kiew"]
+atlas = ExtResource("2_5sw45")
+region = Rect2(0, 0, 18, 17)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_nj256"]
-atlas = ExtResource("2_vb75s")
-region = Rect2(0, 0, 16, 24)
+[sub_resource type="AtlasTexture" id="AtlasTexture_08f7h"]
+atlas = ExtResource("2_5sw45")
+region = Rect2(0, 0, 18, 17)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_kqu01"]
-atlas = ExtResource("2_vb75s")
-region = Rect2(16, 0, 16, 24)
+[sub_resource type="AtlasTexture" id="AtlasTexture_redp3"]
+atlas = ExtResource("2_5sw45")
+region = Rect2(18, 0, 18, 17)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sh1rd"]
-atlas = ExtResource("2_vb75s")
-region = Rect2(32, 0, 16, 24)
+[sub_resource type="AtlasTexture" id="AtlasTexture_ucjx3"]
+atlas = ExtResource("2_5sw45")
+region = Rect2(36, 0, 18, 17)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bdn3h"]
-atlas = ExtResource("2_vb75s")
-region = Rect2(48, 0, 16, 24)
+[sub_resource type="AtlasTexture" id="AtlasTexture_0weoj"]
+atlas = ExtResource("2_5sw45")
+region = Rect2(54, 0, 18, 17)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_arvyg"]
-atlas = ExtResource("2_vb75s")
-region = Rect2(64, 0, 16, 24)
+[sub_resource type="AtlasTexture" id="AtlasTexture_8577l"]
+atlas = ExtResource("2_5sw45")
+region = Rect2(72, 0, 18, 17)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_dpo60"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_2buyt"]
+atlas = ExtResource("2_5sw45")
+region = Rect2(90, 0, 18, 17)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xgwno"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_nj256")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_kqu01")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sh1rd")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bdn3h")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_arvyg")
+"texture": SubResource("AtlasTexture_8kiew")
 }],
 "loop": true,
-"name": &"Fly",
-"speed": 10.0
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_08f7h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_redp3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ucjx3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0weoj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8577l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2buyt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2epm6"]
@@ -124,31 +137,29 @@ _data = {
 "RESET": SubResource("Animation_01e47")
 }
 
-[node name="Bat" type="CharacterBody2D"]
+[node name="Goblin" type="CharacterBody2D"]
 process_mode = 1
 collision_layer = 3
-script = ExtResource("1_f4nel")
+script = ExtResource("1_us0cs")
 
-[node name="Bat" type="AnimatedSprite2D" parent="."]
-material = SubResource("ShaderMaterial_hh713")
-use_parent_material = true
-sprite_frames = SubResource("SpriteFrames_dpo60")
-animation = &"Fly"
-autoplay = "Fly"
-frame_progress = 0.815959
-offset = Vector2(0, -12)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, -8)
+sprite_frames = SubResource("SpriteFrames_xgwno")
+animation = &"Idle"
+autoplay = "default"
 
 [node name="Shadow" type="Sprite2D" parent="."]
-texture = ExtResource("3_ihbxk")
+texture = ExtResource("3_kpogc")
 
-[node name="HurtBox" parent="." instance=ExtResource("3_driar")]
+[node name="HurtBox" parent="." instance=ExtResource("4_oxllb")]
 collision_mask = 16
 
 [node name="CollisionShape2D" parent="HurtBox" index="0"]
+position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_2epm6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -14)
+position = Vector2(0, -7)
 shape = SubResource("CapsuleShape2D_rj6wb")
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -160,25 +171,25 @@ position = Vector2(0, -6)
 shape = SubResource("CircleShape2D_sv5x2")
 debug_color = Color(0.756863, 0.380392, 0.643137, 0.419608)
 
-[node name="HitBox" parent="." instance=ExtResource("5_5qyes")]
+[node name="HitBox" parent="." instance=ExtResource("5_24n4v")]
 collision_layer = 8
 collision_mask = 8
 damage = 3
 
 [node name="CollisionShape2D" parent="HitBox" index="0"]
-position = Vector2(0, -14)
+position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_mfrx3")
 
-[node name="Stats" parent="." instance=ExtResource("7_hxs30")]
+[node name="Stats" parent="." instance=ExtResource("6_ud6x5")]
 maxHealt = 3
 
 [node name="HPBar" type="ProgressBar" parent="."]
 z_index = 10
 z_as_relative = false
 offset_left = -12.0
-offset_top = -31.0
+offset_top = -23.0
 offset_right = 13.0
-offset_bottom = -27.0
+offset_bottom = -19.0
 size_flags_vertical = 8
 theme_override_styles/background = SubResource("StyleBoxEmpty_ypx1f")
 theme_override_styles/fill = SubResource("StyleBoxFlat_di7k6")
@@ -205,12 +216,11 @@ wait_time = 0.4
 one_shot = true
 
 [node name="Ambiente" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("7_qx0un")
 autoplay = true
 max_distance = 100.0
 
 [node name="Hit" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("8_2rmkp")
+stream = ExtResource("8_vq8hb")
 max_distance = 100.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -219,6 +229,7 @@ libraries = {
 }
 
 [node name="Origin" type="Node2D" parent="."]
+position = Vector2(0, -12)
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
 [connection signal="area_exited" from="HurtBox" to="." method="_on_hurt_box_area_exited"]
