@@ -1,4 +1,4 @@
-[gd_scene load_steps=114 format=3 uid="uid://b3dvblv1v6hs"]
+[gd_scene load_steps=137 format=3 uid="uid://b3dvblv1v6hs"]
 
 [ext_resource type="Script" path="res://script/Player/Player.gd" id="1_t6g1t"]
 [ext_resource type="Script" path="res://script/Player/DestroyOnDeath.gd" id="3_21p7w"]
@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://kje7vcoucwfe" path="res://scenes/Box/hurt_box.tscn" id="6_3wgv3"]
 [ext_resource type="Script" path="res://script/Player/staminaBar.gd" id="7_3r268"]
 [ext_resource type="PackedScene" uid="uid://d1obrii3nhtg0" path="res://scenes/World/weather_control.tscn" id="8_3uhvi"]
-[ext_resource type="Script" path="res://script/Player/areaSpell.gd" id="9_msg6d"]
+[ext_resource type="Script" path="res://script/Player/spells/areaSpell.gd" id="9_msg6d"]
 [ext_resource type="AudioStream" uid="uid://du7k4agq2rwyt" path="res://art/Music and Sounds/Spells/elettrico.mp3" id="10_x3oqo"]
 [ext_resource type="AudioStream" uid="uid://de008nodasn3x" path="res://art/Music and Sounds/Hurt.wav" id="11_58p3t"]
 [ext_resource type="Texture2D" uid="uid://bburmyr1lt3ty" path="res://art/Effects/Particle/01.png" id="11_ngtxb"]
@@ -19,19 +19,33 @@
 [ext_resource type="Script" path="res://script/Player/Camera.gd" id="13_8xkyj"]
 [ext_resource type="AudioStream" uid="uid://cmdux60yjglv6" path="res://art/Music and Sounds/healing.wav" id="14_15bp2"]
 [ext_resource type="Texture2D" uid="uid://co0rfookpbk5t" path="res://art/Effects/Particle/healing.png" id="14_sqcbc"]
-[ext_resource type="Script" path="res://script/Player/Invisibilità.gd" id="14_vv0sa"]
-[ext_resource type="PackedScene" uid="uid://bf7fmk0lek55k" path="res://Inventory/GUI.tscn" id="15_og654"]
-[ext_resource type="Script" path="res://script/Player/Berserker.gd" id="16_lo51o"]
+[ext_resource type="Script" path="res://script/Player/spells/Invisibilità.gd" id="14_vv0sa"]
+[ext_resource type="Script" path="res://script/Player/spells/Berserker.gd" id="16_lo51o"]
+[ext_resource type="Texture2D" uid="uid://bg2yauecq67g6" path="res://art/Effects/Particle/incazzato.png" id="17_5xw0i"]
 [ext_resource type="PackedScene" uid="uid://ds6pkq4ncpu5a" path="res://UI/PauseMenu.tscn" id="18_6gf7l"]
+[ext_resource type="Script" path="res://script/Player/spells/fireBallCaster.gd" id="18_8wtkj"]
+[ext_resource type="PackedScene" uid="uid://3q27si3nb4tk" path="res://scenes/Player/fireBall.tscn" id="19_6pk6d"]
 [ext_resource type="PackedScene" uid="uid://dunk3c2piqfwe" path="res://UI/SpellButton.tscn" id="19_dmprr"]
 [ext_resource type="Script" path="res://script/Player/healtBar.gd" id="19_e45im"]
 [ext_resource type="Theme" uid="uid://dxigj16gs6rfw" path="res://UI/tema.tres" id="20_6rkya"]
 [ext_resource type="Script" path="res://script/Player/manaBar.gd" id="20_gtwax"]
-[ext_resource type="Texture2D" uid="uid://co5n6n3img2th" path="res://art/Spell/ondaTonante.png" id="23_g2pb0"]
+[ext_resource type="Texture2D" uid="uid://chd16x213b4uq" path="res://art/Bars/Inventory_9Slices.png" id="22_g85ms"]
 [ext_resource type="Script" path="res://script/Player/lvlBar.gd" id="24_4ryyv"]
+[ext_resource type="Texture2D" uid="uid://cnlpsisict5o6" path="res://art/Spell/ondaTonante.png" id="24_nwwbu"]
 [ext_resource type="Texture2D" uid="uid://4cv5v8jaauha" path="res://art/Spell/invis.png" id="25_1ia64"]
 [ext_resource type="Texture2D" uid="uid://buvs5k1fs6pnk" path="res://art/Spell/healing.png" id="27_15thf"]
-[ext_resource type="Texture2D" uid="uid://juteqcbw76i8" path="res://art/Spell/berserker.png" id="30_whn0k"]
+[ext_resource type="Script" path="res://script/Player/HealingPotion.gd" id="29_6vpoo"]
+[ext_resource type="Texture2D" uid="uid://bonpawfick4kq" path="res://art/Bars/Inventory_Slot_1.png" id="29_nnde3"]
+[ext_resource type="Texture2D" uid="uid://dvsln4lqhkcgr" path="res://art/Items/healingPotion.png" id="29_w6xr1"]
+[ext_resource type="Texture2D" uid="uid://ds0gondfu2qt5" path="res://art/Spell/pallefoco.png" id="30_8gf8m"]
+[ext_resource type="Texture2D" uid="uid://cb3g6ihn2cibn" path="res://art/Spell/berserker.png" id="30_whn0k"]
+[ext_resource type="Texture2D" uid="uid://cn3mjk1auvm85" path="res://art/Bars/Heart_Red_1.png" id="33_hx28d"]
+[ext_resource type="Texture2D" uid="uid://bpxgiuht80f11" path="res://art/Bars/Settings.png" id="34_2mj4m"]
+[ext_resource type="Script" path="res://script/Player/coins.gd" id="34_vll5o"]
+[ext_resource type="Texture2D" uid="uid://7axl80i8qab4" path="res://Inventory/Icons/coins.png" id="35_8dqio"]
+[ext_resource type="Script" path="res://script/Player/critDisplay.gd" id="36_7i4aj"]
+[ext_resource type="Texture2D" uid="uid://ta2e5qcr8noa" path="res://Inventory/Icons/crit.png" id="37_uyc2d"]
+[ext_resource type="Texture2D" uid="uid://cyj5il3vcsd55" path="res://art/Bars/Health_01.png" id="41_g21cm"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3cqqq"]
 shader = ExtResource("4_vnjax")
@@ -1041,6 +1055,18 @@ height = 34.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_4xmux"]
 radius = 82.0244
 
+[sub_resource type="Gradient" id="Gradient_6osre"]
+offsets = PackedFloat32Array(0, 0.659091)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_yryvm"]
+gradient = SubResource("Gradient_6osre")
+width = 180
+height = 180
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_r2j1t"]
 particles_animation = true
 particles_anim_h_frames = 6
@@ -1055,18 +1081,6 @@ gravity = Vector3(0, 0, 0)
 anim_speed_min = 0.5
 anim_speed_max = 1.0
 
-[sub_resource type="Gradient" id="Gradient_6osre"]
-offsets = PackedFloat32Array(0, 0.659091)
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_yryvm"]
-gradient = SubResource("Gradient_6osre")
-width = 180
-height = 180
-use_hdr = true
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wiy8a"]
 particles_animation = true
 particles_anim_h_frames = 7
@@ -1079,9 +1093,39 @@ gravity = Vector3(0, 0, 0)
 anim_speed_min = 0.5
 anim_speed_max = 1.0
 
-[sub_resource type="Animation" id="Animation_2do0p"]
-resource_name = "fuoco"
-length = 0.1
+[sub_resource type="Curve" id="Curve_wk2ny"]
+_data = [Vector2(0.0263158, 1), 0.0, 0.0, 0, 0, Vector2(0.311404, 0.791209), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_q2ab6"]
+curve = SubResource("Curve_wk2ny")
+
+[sub_resource type="Gradient" id="Gradient_3bfdg"]
+offsets = PackedFloat32Array(0, 0.23, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.04, 1, 0.28, 1, 0, 1, 0.25, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_86yw3"]
+gradient = SubResource("Gradient_3bfdg")
+
+[sub_resource type="Curve" id="Curve_1sbyi"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.615385), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_awash"]
+curve = SubResource("Curve_1sbyi")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ucsfo"]
+particle_flag_disable_z = true
+emission_shape = 2
+emission_sphere_radius = 20.0
+gravity = Vector3(0, 0, 0)
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_awash")
+color_ramp = SubResource("GradientTexture1D_86yw3")
+alpha_curve = SubResource("CurveTexture_q2ab6")
+
+[sub_resource type="Animation" id="Animation_gr3e8"]
+length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1095,8 +1139,9 @@ tracks/0/keys = {
 "values": [true]
 }
 
-[sub_resource type="Animation" id="Animation_gr3e8"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_2do0p"]
+resource_name = "fuoco"
+length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1133,9 +1178,22 @@ _data = {
 "noFuoco": SubResource("Animation_qf3nj")
 }
 
-[sub_resource type="Animation" id="Animation_r27cd"]
-resource_name = "invisible"
-length = 0.1
+[sub_resource type="Curve" id="Curve_3cqah"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.45614, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_wmwac"]
+curve = SubResource("Curve_3cqah")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rfesa"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_min = 0.2
+scale_max = 0.2
+scale_curve = SubResource("CurveTexture_wmwac")
+
+[sub_resource type="Animation" id="Animation_k18xq"]
+length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1149,8 +1207,9 @@ tracks/0/keys = {
 "values": [true]
 }
 
-[sub_resource type="Animation" id="Animation_k18xq"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_r27cd"]
+resource_name = "invisible"
+length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1204,27 +1263,18 @@ expand_margin_bottom = 1.0
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jufrk"]
 bg_color = Color(0, 0.72549, 0.211765, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yl3xj"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wi2po"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3gnna"]
-bg_color = Color(0.34902, 0.701961, 0.580392, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t5u0d"]
+bg_color = Color(0.8, 0.117647, 0, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_enn6l"]
-bg_color = Color(0.2, 0.2, 0.2, 1)
-expand_margin_left = 1.0
-expand_margin_top = 1.0
-expand_margin_right = 1.0
-expand_margin_bottom = 1.0
-shadow_color = Color(0, 0, 0, 0.27451)
-shadow_offset = Vector2(0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x4r1n"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rnlix"]
 bg_color = Color(1, 1, 1, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_he4k8"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j8s4h"]
 bg_color = Color(0.305882, 0.647059, 0.780392, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c1y12"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2s8m6"]
 bg_color = Color(1, 0.75, 0, 1)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2goiq"]
@@ -1396,6 +1446,7 @@ collision_mask = 8421377
 script = ExtResource("1_t6g1t")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(1.1, 1.1)
 position_smoothing_enabled = true
 position_smoothing_speed = 3.0
 script = ExtResource("13_8xkyj")
@@ -1448,7 +1499,7 @@ debug_color = Color(0.988235, 0, 0.305882, 0.419608)
 collision_layer = 16
 collision_mask = 0
 script = ExtResource("9_msg6d")
-damage = 3
+damage = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DestroyOnDeath/OndaTonante/Area2D"]
 shape = SubResource("CircleShape2D_4xmux")
@@ -1456,6 +1507,10 @@ shape = SubResource("CircleShape2D_4xmux")
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="DestroyOnDeath/OndaTonante"]
 stream = ExtResource("10_x3oqo")
 volume_db = 3.0
+
+[node name="PointLight2D" type="PointLight2D" parent="DestroyOnDeath/OndaTonante"]
+show_behind_parent = true
+texture = SubResource("GradientTexture2D_yryvm")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="DestroyOnDeath/OndaTonante"]
 material = SubResource("CanvasItemMaterial_r2j1t")
@@ -1465,10 +1520,6 @@ process_material = SubResource("ParticleProcessMaterial_yx6ew")
 texture = ExtResource("11_ngtxb")
 one_shot = true
 explosiveness = 1.0
-
-[node name="PointLight2D" type="PointLight2D" parent="DestroyOnDeath/OndaTonante/GPUParticles2D"]
-show_behind_parent = true
-texture = SubResource("GradientTexture2D_yryvm")
 
 [node name="Cura" type="Node2D" parent="DestroyOnDeath"]
 show_behind_parent = true
@@ -1490,6 +1541,14 @@ texture = ExtResource("14_sqcbc")
 one_shot = true
 explosiveness = 1.0
 
+[node name="RegenParticle" type="GPUParticles2D" parent="DestroyOnDeath"]
+position = Vector2(-2, -12)
+scale = Vector2(0.5, 0.5)
+amount = 30
+sub_emitter = NodePath(".")
+process_material = SubResource("ParticleProcessMaterial_ucsfo")
+local_coords = true
+
 [node name="Berserk" type="Node2D" parent="DestroyOnDeath"]
 show_behind_parent = true
 script = ExtResource("16_lo51o")
@@ -1502,6 +1561,20 @@ libraries = {
 [node name="Berserk" type="Timer" parent="DestroyOnDeath/Berserk"]
 wait_time = 10.0
 one_shot = true
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="DestroyOnDeath/Berserk"]
+z_index = 10
+position = Vector2(1, -18)
+amount = 2
+sub_emitter = NodePath(".")
+process_material = SubResource("ParticleProcessMaterial_rfesa")
+texture = ExtResource("17_5xw0i")
+local_coords = true
+
+[node name="Gun" type="Node2D" parent="DestroyOnDeath"]
+position = Vector2(-2, -11)
+script = ExtResource("18_8wtkj")
+bullet = ExtResource("19_6pk6d")
 
 [node name="Invisibilità" type="Node2D" parent="DestroyOnDeath"]
 show_behind_parent = true
@@ -1549,129 +1622,26 @@ show_percentage = false
 script = ExtResource("7_3r268")
 player = NodePath("../..")
 
-[node name="Inventory" parent="DestroyOnDeath" node_paths=PackedStringArray("player") instance=ExtResource("15_og654")]
-visible = false
-player = NodePath("../..")
-
 [node name="Barre" type="CanvasLayer" parent="DestroyOnDeath"]
 process_mode = 1
 
-[node name="pauseMenu" parent="DestroyOnDeath/Barre" node_paths=PackedStringArray("player", "manaBar", "healtBar") instance=ExtResource("18_6gf7l")]
-player = NodePath("../../..")
-manaBar = NodePath("../ManaBar")
-healtBar = NodePath("../HPBar")
+[node name="hideOnPause" type="Control" parent="DestroyOnDeath/Barre"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="HPBar" type="ProgressBar" parent="DestroyOnDeath/Barre" node_paths=PackedStringArray("player")]
+[node name="Panel" type="Panel" parent="DestroyOnDeath/Barre/hideOnPause"]
 z_index = 10
-z_as_relative = false
-offset_left = 9.0
-offset_top = 9.0
-offset_right = 149.0
-offset_bottom = 13.0
-size_flags_vertical = 8
-theme_override_styles/background = SubResource("StyleBoxEmpty_yl3xj")
-theme_override_styles/fill = SubResource("StyleBoxFlat_3gnna")
-value = 60.0
-show_percentage = false
-script = ExtResource("19_e45im")
-player = NodePath("../../..")
-metadata/_edit_group_ = true
-
-[node name="DamageBar" type="ProgressBar" parent="DestroyOnDeath/Barre/HPBar"]
-z_index = 8
-z_as_relative = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_enn6l")
-theme_override_styles/fill = SubResource("StyleBoxFlat_x4r1n")
-value = 80.0
-show_percentage = false
-
-[node name="Timer" type="Timer" parent="DestroyOnDeath/Barre/HPBar"]
-wait_time = 0.4
-one_shot = true
-
-[node name="ManaBar" type="ProgressBar" parent="DestroyOnDeath/Barre" node_paths=PackedStringArray("player")]
-z_index = 10
-z_as_relative = false
-offset_left = 9.0
-offset_top = 20.0
-offset_right = 109.0
-offset_bottom = 24.0
-size_flags_vertical = 8
-theme_override_styles/background = SubResource("StyleBoxEmpty_yl3xj")
-theme_override_styles/fill = SubResource("StyleBoxFlat_he4k8")
-value = 60.0
-show_percentage = false
-script = ExtResource("20_gtwax")
-player = NodePath("../../..")
-metadata/_edit_group_ = true
-
-[node name="DamageBar" type="ProgressBar" parent="DestroyOnDeath/Barre/ManaBar"]
-z_index = 8
-z_as_relative = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_enn6l")
-theme_override_styles/fill = SubResource("StyleBoxFlat_x4r1n")
-value = 80.0
-show_percentage = false
-
-[node name="Timer" type="Timer" parent="DestroyOnDeath/Barre/ManaBar"]
-wait_time = 0.4
-one_shot = true
-
-[node name="LvlBar" type="ProgressBar" parent="DestroyOnDeath/Barre" node_paths=PackedStringArray("player")]
-z_index = 10
-z_as_relative = false
-offset_left = 9.0
-offset_top = 31.0
-offset_right = 77.0
-offset_bottom = 35.0
-size_flags_vertical = 8
-theme_override_styles/background = SubResource("StyleBoxEmpty_yl3xj")
-theme_override_styles/fill = SubResource("StyleBoxFlat_c1y12")
-value = 100.0
-show_percentage = false
-script = ExtResource("24_4ryyv")
-player = NodePath("../../..")
-
-[node name="DamageBar" type="ProgressBar" parent="DestroyOnDeath/Barre/LvlBar"]
-z_index = 8
-z_as_relative = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_enn6l")
-theme_override_styles/fill = SubResource("StyleBoxFlat_x4r1n")
-show_percentage = false
-
-[node name="Label" type="Label" parent="DestroyOnDeath/Barre/LvlBar"]
 layout_mode = 0
-offset_left = 71.0
-offset_top = -4.0
-offset_right = 111.0
-offset_bottom = 19.0
-scale = Vector2(0.75, 0.75)
-theme = ExtResource("20_6rkya")
-text = "0"
-
-[node name="Panel" type="Panel" parent="DestroyOnDeath/Barre"]
-z_index = 10
 offset_bottom = 3.0
 
-[node name="Control" parent="DestroyOnDeath/Barre/Panel" instance=ExtResource("19_dmprr")]
+[node name="Inventory9Slices" type="Sprite2D" parent="DestroyOnDeath/Barre/hideOnPause/Panel"]
+position = Vector2(19, 164)
+scale = Vector2(0.726563, 0.726563)
+texture = ExtResource("22_g85ms")
+
+[node name="Control" parent="DestroyOnDeath/Barre/hideOnPause/Panel" instance=ExtResource("19_dmprr")]
 layout_mode = 1
 offset_left = 11.0
 offset_top = 156.0
@@ -1679,10 +1649,10 @@ offset_right = 43.0
 offset_bottom = 185.0
 scale = Vector2(0.5, 0.5)
 theme = ExtResource("20_6rkya")
-texture_normal = ExtResource("23_g2pb0")
+texture_normal = ExtResource("24_nwwbu")
 script = null
 
-[node name="Key" parent="DestroyOnDeath/Barre/Panel/Control" index="1"]
+[node name="Key" parent="DestroyOnDeath/Barre/hideOnPause/Panel/Control" index="1"]
 offset_left = -3.07692
 offset_top = 18.4615
 offset_right = 36.9231
@@ -1690,25 +1660,31 @@ offset_bottom = 41.4615
 scale = Vector2(1.5, 1.5)
 text = "1"
 
-[node name="Time" parent="DestroyOnDeath/Barre/Panel/Control" index="2"]
+[node name="Time" parent="DestroyOnDeath/Barre/hideOnPause/Panel/Control" index="2"]
 offset_left = -6.7693
 offset_top = -5.23077
 offset_right = 33.2307
 offset_bottom = 17.7692
 
-[node name="Timer" parent="DestroyOnDeath/Barre/Panel/Control" index="3"]
-wait_time = 2.5
+[node name="Timer" parent="DestroyOnDeath/Barre/hideOnPause/Panel/Control" index="3"]
+wait_time = 5.0
 one_shot = true
 
-[node name="Panel2" type="Panel" parent="DestroyOnDeath/Barre"]
+[node name="Panel2" type="Panel" parent="DestroyOnDeath/Barre/hideOnPause"]
 z_index = 10
-offset_left = -252.0
+layout_mode = 0
+offset_left = -245.0
 offset_top = 145.0
-offset_right = -252.0
+offset_right = -245.0
 offset_bottom = 148.0
 metadata/_edit_group_ = true
 
-[node name="Control" parent="DestroyOnDeath/Barre/Panel2" instance=ExtResource("19_dmprr")]
+[node name="Inventory9Slices2" type="Sprite2D" parent="DestroyOnDeath/Barre/hideOnPause/Panel2"]
+position = Vector2(292, 19)
+scale = Vector2(0.726563, 0.726563)
+texture = ExtResource("22_g85ms")
+
+[node name="Control" parent="DestroyOnDeath/Barre/hideOnPause/Panel2" instance=ExtResource("19_dmprr")]
 layout_mode = 1
 offset_left = 284.0
 offset_top = 11.0
@@ -1719,7 +1695,7 @@ theme = ExtResource("20_6rkya")
 texture_normal = ExtResource("25_1ia64")
 script = null
 
-[node name="Key" parent="DestroyOnDeath/Barre/Panel2/Control" index="1"]
+[node name="Key" parent="DestroyOnDeath/Barre/hideOnPause/Panel2/Control" index="1"]
 offset_left = -3.07692
 offset_top = 18.4615
 offset_right = 36.9231
@@ -1728,25 +1704,31 @@ scale = Vector2(1.5, 1.5)
 text = "2
 "
 
-[node name="Time" parent="DestroyOnDeath/Barre/Panel2/Control" index="2"]
+[node name="Time" parent="DestroyOnDeath/Barre/hideOnPause/Panel2/Control" index="2"]
 offset_left = -6.7693
 offset_top = -5.23077
 offset_right = 33.2307
 offset_bottom = 17.7692
 
-[node name="Timer" parent="DestroyOnDeath/Barre/Panel2/Control" index="3"]
+[node name="Timer" parent="DestroyOnDeath/Barre/hideOnPause/Panel2/Control" index="3"]
 wait_time = 30.0
 one_shot = true
 
-[node name="Panel3" type="Panel" parent="DestroyOnDeath/Barre"]
+[node name="Panel3" type="Panel" parent="DestroyOnDeath/Barre/hideOnPause"]
 z_index = 10
-offset_left = -231.0
+layout_mode = 0
+offset_left = -217.0
 offset_top = 145.0
-offset_right = -231.0
+offset_right = -217.0
 offset_bottom = 148.0
 metadata/_edit_group_ = true
 
-[node name="Control" parent="DestroyOnDeath/Barre/Panel3" instance=ExtResource("19_dmprr")]
+[node name="Inventory9Slices3" type="Sprite2D" parent="DestroyOnDeath/Barre/hideOnPause/Panel3"]
+position = Vector2(292, 19)
+scale = Vector2(0.726563, 0.726563)
+texture = ExtResource("22_g85ms")
+
+[node name="Control" parent="DestroyOnDeath/Barre/hideOnPause/Panel3" instance=ExtResource("19_dmprr")]
 layout_mode = 1
 offset_left = 284.0
 offset_top = 11.0
@@ -1757,7 +1739,7 @@ theme = ExtResource("20_6rkya")
 texture_normal = ExtResource("27_15thf")
 script = null
 
-[node name="Key" parent="DestroyOnDeath/Barre/Panel3/Control" index="1"]
+[node name="Key" parent="DestroyOnDeath/Barre/hideOnPause/Panel3/Control" index="1"]
 offset_left = -3.07692
 offset_top = 18.4615
 offset_right = 36.9231
@@ -1765,25 +1747,31 @@ offset_bottom = 41.4615
 scale = Vector2(1.5, 1.5)
 text = "3"
 
-[node name="Time" parent="DestroyOnDeath/Barre/Panel3/Control" index="2"]
+[node name="Time" parent="DestroyOnDeath/Barre/hideOnPause/Panel3/Control" index="2"]
 offset_left = -6.7693
 offset_top = -5.23077
 offset_right = 33.2307
 offset_bottom = 17.7692
 
-[node name="Timer" parent="DestroyOnDeath/Barre/Panel3/Control" index="3"]
+[node name="Timer" parent="DestroyOnDeath/Barre/hideOnPause/Panel3/Control" index="3"]
 wait_time = 10.0
 one_shot = true
 
-[node name="Panel4" type="Panel" parent="DestroyOnDeath/Barre"]
+[node name="Panel4" type="Panel" parent="DestroyOnDeath/Barre/hideOnPause"]
 z_index = 10
-offset_left = -209.0
+layout_mode = 0
+offset_left = -189.0
 offset_top = 145.0
-offset_right = -209.0
+offset_right = -189.0
 offset_bottom = 148.0
 metadata/_edit_group_ = true
 
-[node name="Control" parent="DestroyOnDeath/Barre/Panel4" instance=ExtResource("19_dmprr")]
+[node name="Inventory9Slices3" type="Sprite2D" parent="DestroyOnDeath/Barre/hideOnPause/Panel4"]
+position = Vector2(292, 19)
+scale = Vector2(0.726563, 0.726563)
+texture = ExtResource("22_g85ms")
+
+[node name="Control" parent="DestroyOnDeath/Barre/hideOnPause/Panel4" instance=ExtResource("19_dmprr")]
 layout_mode = 1
 offset_left = 284.0
 offset_top = 11.0
@@ -1794,7 +1782,7 @@ theme = ExtResource("20_6rkya")
 texture_normal = ExtResource("30_whn0k")
 script = null
 
-[node name="Key" parent="DestroyOnDeath/Barre/Panel4/Control" index="1"]
+[node name="Key" parent="DestroyOnDeath/Barre/hideOnPause/Panel4/Control" index="1"]
 offset_left = -3.07692
 offset_top = 18.4615
 offset_right = 36.9231
@@ -1803,30 +1791,316 @@ scale = Vector2(1.5, 1.5)
 text = "4
 "
 
-[node name="Time" parent="DestroyOnDeath/Barre/Panel4/Control" index="2"]
+[node name="Time" parent="DestroyOnDeath/Barre/hideOnPause/Panel4/Control" index="2"]
 offset_left = -6.7693
 offset_top = -5.23077
 offset_right = 33.2307
 offset_bottom = 17.7692
 
-[node name="Timer" parent="DestroyOnDeath/Barre/Panel4/Control" index="3"]
+[node name="Timer" parent="DestroyOnDeath/Barre/hideOnPause/Panel4/Control" index="3"]
 wait_time = 20.0
 one_shot = true
 
+[node name="Panel5" type="Panel" parent="DestroyOnDeath/Barre/hideOnPause"]
+z_index = 10
+layout_mode = 0
+offset_left = -161.0
+offset_top = 145.0
+offset_right = -161.0
+offset_bottom = 148.0
+metadata/_edit_group_ = true
+
+[node name="Inventory9Slices3" type="Sprite2D" parent="DestroyOnDeath/Barre/hideOnPause/Panel5"]
+position = Vector2(292, 19)
+scale = Vector2(0.726563, 0.726563)
+texture = ExtResource("22_g85ms")
+
+[node name="Control" parent="DestroyOnDeath/Barre/hideOnPause/Panel5" instance=ExtResource("19_dmprr")]
+layout_mode = 1
+offset_left = 284.0
+offset_top = 11.0
+offset_right = 316.0
+offset_bottom = 40.0
+scale = Vector2(0.5, 0.5)
+theme = ExtResource("20_6rkya")
+texture_normal = ExtResource("30_8gf8m")
+script = null
+
+[node name="Key" parent="DestroyOnDeath/Barre/hideOnPause/Panel5/Control" index="1"]
+offset_left = -3.07692
+offset_top = 18.4615
+offset_right = 36.9231
+offset_bottom = 41.4615
+scale = Vector2(1.5, 1.5)
+text = "5"
+
+[node name="Time" parent="DestroyOnDeath/Barre/hideOnPause/Panel5/Control" index="2"]
+offset_left = -6.7693
+offset_top = -5.23077
+offset_right = 33.2307
+offset_bottom = 17.7692
+
+[node name="Timer" parent="DestroyOnDeath/Barre/hideOnPause/Panel5/Control" index="3"]
+wait_time = 2.5
+one_shot = true
+
+[node name="Potion" type="Panel" parent="DestroyOnDeath/Barre/hideOnPause"]
+z_index = 10
+layout_mode = 0
+offset_left = 11.0
+offset_top = 145.0
+offset_right = 11.0
+offset_bottom = 148.0
+
+[node name="Control" parent="DestroyOnDeath/Barre/hideOnPause/Potion" node_paths=PackedStringArray("player", "healingPart") instance=ExtResource("19_dmprr")]
+layout_mode = 1
+offset_left = 272.0
+offset_top = 3.0
+offset_right = 336.0
+offset_bottom = 64.0
+scale = Vector2(0.5, 0.5)
+theme = ExtResource("20_6rkya")
+texture_normal = ExtResource("29_nnde3")
+script = ExtResource("29_6vpoo")
+player = NodePath("../../../../..")
+healingPart = NodePath("../../../../RegenParticle")
+
+[node name="CD" parent="DestroyOnDeath/Barre/hideOnPause/Potion/Control" index="0"]
+visible = false
+
+[node name="Key" parent="DestroyOnDeath/Barre/hideOnPause/Potion/Control" index="1"]
+offset_left = 7.99998
+offset_top = 40.0
+offset_right = 48.0
+offset_bottom = 63.0
+scale = Vector2(1.5, 1.5)
+
+[node name="Time" parent="DestroyOnDeath/Barre/hideOnPause/Potion/Control" index="2"]
+visible = false
+offset_left = -6.7693
+offset_top = -5.23077
+offset_right = 33.2307
+offset_bottom = 17.7692
+
+[node name="Timer" parent="DestroyOnDeath/Barre/hideOnPause/Potion/Control" index="3"]
+wait_time = 20.0
+one_shot = true
+
+[node name="Panel" parent="DestroyOnDeath/Barre/hideOnPause/Potion/Control" index="4"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 48.0
+offset_bottom = 48.0
+
+[node name="Quantity" type="Label" parent="DestroyOnDeath/Barre/hideOnPause/Potion/Control"]
+layout_mode = 0
+offset_left = 46.0
+offset_top = 40.0
+offset_right = 86.0
+offset_bottom = 63.0
+scale = Vector2(1.5, 1.5)
+theme = ExtResource("20_6rkya")
+text = "0"
+
+[node name="HealingPotion" type="Sprite2D" parent="DestroyOnDeath/Barre/hideOnPause/Potion/Control"]
+position = Vector2(32, 32)
+scale = Vector2(2, 2)
+texture = ExtResource("29_w6xr1")
+
+[node name="Regen" type="Timer" parent="DestroyOnDeath/Barre/hideOnPause/Potion/Control"]
+wait_time = 10.0
+one_shot = true
+
+[node name="HPBar" type="ProgressBar" parent="DestroyOnDeath/Barre/hideOnPause" node_paths=PackedStringArray("player")]
+z_index = 10
+z_as_relative = false
+layout_mode = 0
+offset_left = 21.0
+offset_top = 9.0
+offset_right = 66.0
+offset_bottom = 11.0
+scale = Vector2(1.25, 1.25)
+size_flags_vertical = 8
+theme_override_styles/background = SubResource("StyleBoxEmpty_wi2po")
+theme_override_styles/fill = SubResource("StyleBoxFlat_t5u0d")
+value = 100.0
+show_percentage = false
+script = ExtResource("19_e45im")
+player = NodePath("../../../..")
+
+[node name="Health01" type="Sprite2D" parent="DestroyOnDeath/Barre/hideOnPause/HPBar"]
+show_behind_parent = true
+position = Vector2(16, 3)
+texture = ExtResource("41_g21cm")
+
+[node name="HeartRed1" type="Sprite2D" parent="DestroyOnDeath/Barre/hideOnPause/HPBar"]
+position = Vector2(-8, 3)
+texture = ExtResource("33_hx28d")
+
+[node name="DamageBar" type="ProgressBar" parent="DestroyOnDeath/Barre/hideOnPause/HPBar"]
+show_behind_parent = true
+z_index = 10
+z_as_relative = false
+layout_mode = 0
+offset_right = 45.0
+offset_bottom = 2.0
+size_flags_vertical = 8
+theme_override_styles/background = SubResource("StyleBoxEmpty_wi2po")
+theme_override_styles/fill = SubResource("StyleBoxFlat_rnlix")
+value = 100.0
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="DestroyOnDeath/Barre/hideOnPause/HPBar"]
+wait_time = 0.4
+one_shot = true
+
+[node name="ManaBar" type="ProgressBar" parent="DestroyOnDeath/Barre/hideOnPause" node_paths=PackedStringArray("player")]
+z_index = 10
+z_as_relative = false
+layout_mode = 0
+offset_left = 28.0
+offset_top = 20.0
+offset_right = 60.0
+offset_bottom = 22.0
+scale = Vector2(1.25, 1.25)
+size_flags_vertical = 8
+theme_override_styles/background = SubResource("StyleBoxEmpty_wi2po")
+theme_override_styles/fill = SubResource("StyleBoxFlat_j8s4h")
+value = 60.0
+show_percentage = false
+script = ExtResource("20_gtwax")
+player = NodePath("../../../..")
+metadata/_edit_group_ = true
+
+[node name="Mana" type="Sprite2D" parent="DestroyOnDeath/Barre/hideOnPause/ManaBar"]
+show_behind_parent = true
+position = Vector2(16, 1)
+texture = ExtResource("34_2mj4m")
+
+[node name="DamageBar" type="ProgressBar" parent="DestroyOnDeath/Barre/hideOnPause/ManaBar"]
+show_behind_parent = true
+z_index = 10
+z_as_relative = false
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 2.0
+size_flags_vertical = 8
+theme_override_styles/background = SubResource("StyleBoxEmpty_wi2po")
+theme_override_styles/fill = SubResource("StyleBoxFlat_rnlix")
+value = 100.0
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="DestroyOnDeath/Barre/hideOnPause/ManaBar"]
+wait_time = 0.4
+one_shot = true
+
+[node name="LvlBar" type="ProgressBar" parent="DestroyOnDeath/Barre/hideOnPause" node_paths=PackedStringArray("player")]
+z_index = 10
+z_as_relative = false
+layout_mode = 0
+offset_left = 28.0
+offset_top = 31.0
+offset_right = 60.0
+offset_bottom = 33.0
+scale = Vector2(1.25, 1.25)
+size_flags_vertical = 8
+theme_override_styles/background = SubResource("StyleBoxEmpty_wi2po")
+theme_override_styles/fill = SubResource("StyleBoxFlat_2s8m6")
+value = 100.0
+show_percentage = false
+script = ExtResource("24_4ryyv")
+player = NodePath("../../../..")
+metadata/_edit_group_ = true
+
+[node name="Exp" type="Sprite2D" parent="DestroyOnDeath/Barre/hideOnPause/LvlBar"]
+show_behind_parent = true
+position = Vector2(16, 1)
+texture = ExtResource("34_2mj4m")
+
+[node name="Label" type="Label" parent="DestroyOnDeath/Barre/hideOnPause/LvlBar"]
+layout_mode = 0
+offset_left = -40.8
+offset_top = -8.0
+offset_right = -0.800003
+offset_bottom = 15.0
+scale = Vector2(0.75, 0.75)
+theme = ExtResource("20_6rkya")
+text = "10"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="coins" type="Control" parent="DestroyOnDeath/Barre/hideOnPause"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 8.0
+offset_right = 40.0
+offset_bottom = 48.0
+script = ExtResource("34_vll5o")
+
+[node name="Coins" type="Sprite2D" parent="DestroyOnDeath/Barre/hideOnPause/coins"]
+position = Vector2(311, 9.53674e-07)
+scale = Vector2(0.625, 0.625)
+texture = ExtResource("35_8dqio")
+
+[node name="Label" type="Label" parent="DestroyOnDeath/Barre/hideOnPause/coins"]
+layout_mode = 0
+offset_left = 256.0
+offset_top = -4.0
+offset_right = 326.0
+offset_bottom = 45.0
+scale = Vector2(0.7, 0.7)
+theme = ExtResource("20_6rkya")
+text = "0"
+horizontal_alignment = 2
+
+[node name="crit" type="Control" parent="DestroyOnDeath/Barre/hideOnPause"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 23.0
+offset_right = 40.0
+offset_bottom = 63.0
+script = ExtResource("36_7i4aj")
+
+[node name="crit" type="Sprite2D" parent="DestroyOnDeath/Barre/hideOnPause/crit"]
+position = Vector2(311, -3)
+scale = Vector2(0.625, 0.625)
+texture = ExtResource("37_uyc2d")
+
+[node name="Label" type="Label" parent="DestroyOnDeath/Barre/hideOnPause/crit"]
+layout_mode = 0
+offset_left = 256.0
+offset_top = -7.0
+offset_right = 326.0
+offset_bottom = 42.0
+scale = Vector2(0.7, 0.7)
+theme = ExtResource("20_6rkya")
+text = "0"
+horizontal_alignment = 2
+
+[node name="pauseMenu" parent="DestroyOnDeath/Barre" node_paths=PackedStringArray("player", "hideOnPause") instance=ExtResource("18_6gf7l")]
+player = NodePath("../../..")
+hideOnPause = NodePath("../hideOnPause")
+
+[node name="Inv" type="CanvasLayer" parent="DestroyOnDeath"]
+
 [node name="weatherControl" parent="." instance=ExtResource("8_3uhvi")]
 z_index = 3
+position = Vector2(0, 7)
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(0, 7)
 volume_db = -5.0
 
 [node name="RollPlayer" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(0, 7)
 
 [node name="HitEffect" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(0, 7)
 stream = ExtResource("11_58p3t")
 volume_db = -10.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-3, -8)
+position = Vector2(-2, -7)
 shape = SubResource("CapsuleShape2D_2goiq")
 
 [node name="Blink" type="AnimationPlayer" parent="."]
@@ -1841,17 +2115,21 @@ autoplay = "onStart"
 [connection signal="invincibilityEnded" from="DestroyOnDeath/HurtBox" to="." method="_on_hurt_box_invincibility_ended"]
 [connection signal="invincibilityStarted" from="DestroyOnDeath/HurtBox" to="." method="_on_hurt_box_invincibility_started"]
 [connection signal="timeout" from="DestroyOnDeath/StaminaTimer" to="." method="_on_stamina_timer_timeout"]
-[connection signal="timeout" from="DestroyOnDeath/Barre/HPBar/Timer" to="DestroyOnDeath/Barre/HPBar" method="_on_timer_timeout"]
-[connection signal="timeout" from="DestroyOnDeath/Barre/ManaBar/Timer" to="DestroyOnDeath/Barre/ManaBar" method="_on_timer_timeout"]
-[connection signal="timeout" from="DestroyOnDeath/Barre/Panel/Control/Timer" to="DestroyOnDeath/OndaTonante/Area2D" method="_on_timer_timeout"]
-[connection signal="timeout" from="DestroyOnDeath/Barre/Panel2/Control/Timer" to="DestroyOnDeath/Invisibilità" method="_on_timer_timeout"]
-[connection signal="timeout" from="DestroyOnDeath/Barre/Panel3/Control/Timer" to="DestroyOnDeath/Cura" method="_on_timer_timeout"]
-[connection signal="timeout" from="DestroyOnDeath/Barre/Panel4/Control/Timer" to="DestroyOnDeath/Berserk" method="_on_timer_timeout"]
+[connection signal="timeout" from="DestroyOnDeath/Barre/hideOnPause/Panel/Control/Timer" to="DestroyOnDeath/OndaTonante/Area2D" method="_on_timer_timeout"]
+[connection signal="timeout" from="DestroyOnDeath/Barre/hideOnPause/Panel2/Control/Timer" to="DestroyOnDeath/Invisibilità" method="_on_timer_timeout"]
+[connection signal="timeout" from="DestroyOnDeath/Barre/hideOnPause/Panel3/Control/Timer" to="DestroyOnDeath/Cura" method="_on_timer_timeout"]
+[connection signal="timeout" from="DestroyOnDeath/Barre/hideOnPause/Panel4/Control/Timer" to="DestroyOnDeath/Berserk" method="_on_timer_timeout"]
+[connection signal="timeout" from="DestroyOnDeath/Barre/hideOnPause/Panel5/Control/Timer" to="DestroyOnDeath/Gun" method="_on_timer_timeout"]
+[connection signal="timeout" from="DestroyOnDeath/Barre/hideOnPause/Potion/Control/Timer" to="DestroyOnDeath/Berserk" method="_on_timer_timeout"]
+[connection signal="timeout" from="DestroyOnDeath/Barre/hideOnPause/Potion/Control/Regen" to="DestroyOnDeath/Barre/hideOnPause/Potion/Control" method="_on_regen_timeout"]
+[connection signal="timeout" from="DestroyOnDeath/Barre/hideOnPause/HPBar/Timer" to="DestroyOnDeath/Barre/hideOnPause/HPBar" method="_on_timer_timeout"]
+[connection signal="timeout" from="DestroyOnDeath/Barre/hideOnPause/ManaBar/Timer" to="DestroyOnDeath/Barre/hideOnPause/ManaBar" method="_on_timer_timeout"]
 
 [editable path="DestroyOnDeath/HitBoxPivot/SwordHitBox"]
 [editable path="DestroyOnDeath/HurtBox"]
-[editable path="DestroyOnDeath/Inventory"]
-[editable path="DestroyOnDeath/Barre/Panel/Control"]
-[editable path="DestroyOnDeath/Barre/Panel2/Control"]
-[editable path="DestroyOnDeath/Barre/Panel3/Control"]
-[editable path="DestroyOnDeath/Barre/Panel4/Control"]
+[editable path="DestroyOnDeath/Barre/hideOnPause/Panel/Control"]
+[editable path="DestroyOnDeath/Barre/hideOnPause/Panel2/Control"]
+[editable path="DestroyOnDeath/Barre/hideOnPause/Panel3/Control"]
+[editable path="DestroyOnDeath/Barre/hideOnPause/Panel4/Control"]
+[editable path="DestroyOnDeath/Barre/hideOnPause/Panel5/Control"]
+[editable path="DestroyOnDeath/Barre/hideOnPause/Potion/Control"]

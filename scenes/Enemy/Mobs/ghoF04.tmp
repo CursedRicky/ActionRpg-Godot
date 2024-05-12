@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://b3int474d5shu"]
+[gd_scene load_steps=31 format=3 uid="uid://b3int474d5shu"]
 
 [ext_resource type="Shader" path="res://art/Shader/Blink.gdshader" id="2_eu6ap"]
 [ext_resource type="Texture2D" uid="uid://cmsm46kehoph4" path="res://art/Enemies/ghost.png" id="2_tc60w"]
@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://b84fkwg61jg4g" path="res://art/Shadows/MediumShadow.png" id="4_57wad"]
 [ext_resource type="PackedScene" uid="uid://0cgjopmw7jb4" path="res://scenes/Box/hit_box.tscn" id="5_4pnkr"]
 [ext_resource type="AudioStream" uid="uid://cfr17w0hy7neb" path="res://art/Music and Sounds/Ghost/ghostHit.mp3" id="7_nssgp"]
-[ext_resource type="Texture2D" uid="uid://c4pfohrmn4j1j" path="res://art/Effects/Particle/particle.png" id="9_cht1d"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_op6x8"]
 shader = ExtResource("2_eu6ap")
@@ -133,18 +132,6 @@ tracks/0/keys = {
 "update": 1,
 "values": [false, true, false, true, false, true]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("HitParticles:emitting")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
 
 [sub_resource type="Animation" id="Animation_lwh6p"]
 length = 0.001
@@ -160,18 +147,6 @@ tracks/0/keys = {
 "update": 1,
 "values": [true]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("HitParticles:emitting")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_oyese"]
 _data = {
@@ -179,28 +154,8 @@ _data = {
 "RESET": SubResource("Animation_lwh6p")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_abtf6"]
-radius = 6.0
-
-[sub_resource type="Curve" id="Curve_4nafr"]
-_data = [Vector2(0, 0.35061), 0.0, 0.0, 0, 0, Vector2(0.14, 0.992886), 0.0, 0.0, 0, 0, Vector2(1, 0.221545), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_ch7t7"]
-curve = SubResource("Curve_4nafr")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qkcan"]
-emission_shape = 1
-emission_sphere_radius = 8.0
-gravity = Vector3(0, 0, 0)
-scale_min = 0.2
-scale_max = 0.3
-scale_curve = SubResource("CurveTexture_ch7t7")
-
 [node name="Ghost" type="CharacterBody2D"]
 process_mode = 1
-collision_layer = 512
-collision_mask = 512
 script = ExtResource("2_v74ca")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -212,7 +167,6 @@ autoplay = "Ghost"
 frame_progress = 0.678928
 
 [node name="HurtBox" parent="." instance=ExtResource("3_m0idu")]
-collision_layer = 1024
 collision_mask = 16
 
 [node name="CollisionShape2D" parent="HurtBox" index="0"]
@@ -236,7 +190,7 @@ debug_color = Color(0.756863, 0.380392, 0.643137, 0.419608)
 [node name="HitBox" parent="." instance=ExtResource("5_4pnkr")]
 collision_layer = 8
 collision_mask = 8
-damage = 5
+damage = 10
 
 [node name="CollisionShape2D" parent="HitBox" index="0"]
 position = Vector2(0, -2)
@@ -299,23 +253,6 @@ debug_path_custom_color = Color(0, 0.615262, 0.615703, 1)
 [node name="PathTimer" type="Timer" parent="PathFinding"]
 wait_time = 0.3
 autostart = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 10)
-shape = SubResource("CircleShape2D_abtf6")
-
-[node name="HitParticles" type="GPUParticles2D" parent="."]
-position = Vector2(0, -1)
-amount = 6
-sub_emitter = NodePath(".")
-process_material = SubResource("ParticleProcessMaterial_qkcan")
-texture = ExtResource("9_cht1d")
-lifetime = 0.3
-one_shot = true
-preprocess = 0.03
-explosiveness = 0.8
-randomness = 0.59
-local_coords = true
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
 [connection signal="area_exited" from="HurtBox" to="." method="_on_hurt_box_area_exited"]

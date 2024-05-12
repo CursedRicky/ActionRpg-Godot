@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://delqnkvhl6im7"]
+[gd_scene load_steps=32 format=3 uid="uid://delqnkvhl6im7"]
 
 [ext_resource type="Script" path="res://script/Enemy/Bat.gd" id="1_f4nel"]
 [ext_resource type="Shader" path="res://art/Shader/Blink.gdshader" id="2_7dijc"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://d3q5a0ppcdkug" path="res://scenes/Box/stats.tscn" id="7_hxs30"]
 [ext_resource type="AudioStream" uid="uid://1ji7u6dji25x" path="res://art/Music and Sounds/Bat/Bat.mp3" id="7_qx0un"]
 [ext_resource type="AudioStream" uid="uid://chwcwxwxiaci5" path="res://art/Music and Sounds/Bat/Attacked.mp3" id="8_2rmkp"]
+[ext_resource type="Texture2D" uid="uid://c4pfohrmn4j1j" path="res://art/Effects/Particle/particle.png" id="10_vvd5j"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hh713"]
 shader = ExtResource("2_7dijc")
@@ -57,15 +58,16 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_2epm6"]
-radius = 6.08276
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_50iye"]
+radius = 7.99726
+height = 22.0448
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rj6wb"]
-radius = 4.0
-height = 8.0
+radius = 2.0
+height = 6.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sv5x2"]
-radius = 125.0
+radius = 115.004
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mfrx3"]
 radius = 6.0
@@ -102,6 +104,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [false, true, false, true, false, true]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HitParticles:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_01e47"]
 length = 0.001
@@ -117,6 +131,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HitParticles:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1yqu6"]
 _data = {
@@ -124,10 +150,36 @@ _data = {
 "RESET": SubResource("Animation_01e47")
 }
 
+[sub_resource type="Curve" id="Curve_pw1jr"]
+_data = [Vector2(0, 0.35061), 0.0, 0.0, 0, 0, Vector2(0.14, 0.992886), 0.0, 0.0, 0, 0, Vector2(1, 0.221545), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_idpgb"]
+curve = SubResource("Curve_pw1jr")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m8yyd"]
+emission_shape = 1
+emission_sphere_radius = 8.0
+angle_max = 45.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.2
+scale_max = 0.3
+scale_curve = SubResource("CurveTexture_idpgb")
+
 [node name="Bat" type="CharacterBody2D"]
 process_mode = 1
-collision_layer = 3
+collision_layer = 514
+wall_min_slide_angle = 0.0
 script = ExtResource("1_f4nel")
+
+[node name="PathFinding" type="Node2D" parent="."]
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="PathFinding"]
+debug_path_custom_color = Color(0, 0.615262, 0.615703, 1)
+
+[node name="PathTimer" type="Timer" parent="PathFinding"]
+wait_time = 0.3
+autostart = true
 
 [node name="Bat" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_hh713")
@@ -142,16 +194,20 @@ offset = Vector2(0, -12)
 texture = ExtResource("3_ihbxk")
 
 [node name="HurtBox" parent="." instance=ExtResource("3_driar")]
+collision_layer = 1024
 collision_mask = 16
 
 [node name="CollisionShape2D" parent="HurtBox" index="0"]
-shape = SubResource("CircleShape2D_2epm6")
+position = Vector2(0, -9)
+rotation = -0.0262016
+shape = SubResource("CapsuleShape2D_50iye")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -14)
+rotation = -1.59413
 shape = SubResource("CapsuleShape2D_rj6wb")
 
 [node name="Area2D" type="Area2D" parent="."]
+visible = false
 collision_layer = 8388608
 collision_mask = 8388608
 
@@ -220,6 +276,21 @@ libraries = {
 
 [node name="Origin" type="Node2D" parent="."]
 
+[node name="HitParticles" type="GPUParticles2D" parent="."]
+position = Vector2(0, -15)
+emitting = false
+amount = 6
+sub_emitter = NodePath(".")
+process_material = SubResource("ParticleProcessMaterial_m8yyd")
+texture = ExtResource("10_vvd5j")
+lifetime = 0.3
+one_shot = true
+preprocess = 0.03
+explosiveness = 0.8
+randomness = 0.59
+local_coords = true
+
+[connection signal="timeout" from="PathFinding/PathTimer" to="." method="_on_path_timer_timeout"]
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
 [connection signal="area_exited" from="HurtBox" to="." method="_on_hurt_box_area_exited"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bhonplf0l30g7"]
+[gd_scene load_steps=17 format=3 uid="uid://cfoasumm6s88a"]
 
 [ext_resource type="Script" path="res://script/Player/pallaDiFuoco.gd" id="1_0t7e8"]
 [ext_resource type="Texture2D" uid="uid://do3ffcjo1ikvc" path="res://art/Effects/Particle/42.png" id="2_7c5vw"]

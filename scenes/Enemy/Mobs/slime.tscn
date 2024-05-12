@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://q8qsvw6m20hq"]
+[gd_scene load_steps=29 format=3 uid="uid://q8qsvw6m20hq"]
 
 [ext_resource type="Script" path="res://script/Enemy/Slime.gd" id="1_o6bx8"]
 [ext_resource type="Texture2D" uid="uid://0oh6gbqx2rvf" path="res://art/Enemies/Slime/slimeRight.png" id="2_fx2sp"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://0cgjopmw7jb4" path="res://scenes/Box/hit_box.tscn" id="5_bp328"]
 [ext_resource type="Texture2D" uid="uid://b84fkwg61jg4g" path="res://art/Shadows/MediumShadow.png" id="6_4d2gl"]
 [ext_resource type="AudioStream" uid="uid://d3nvt8x00yf8q" path="res://art/Music and Sounds/slimeSound.mp3" id="6_rm7o8"]
+[ext_resource type="Texture2D" uid="uid://c4pfohrmn4j1j" path="res://art/Effects/Particle/particle.png" id="10_aebvr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wb4xh"]
 shader = ExtResource("2_gtw5m")
@@ -75,8 +76,8 @@ _data = {
 radius = 8.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rj6wb"]
-radius = 7.0
-height = 14.0
+radius = 3.90885
+height = 10.6212
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n33jq"]
 radius = 100.045
@@ -115,6 +116,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [false, true, false, true, false, true]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HitParticles:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_tgrlv"]
 length = 0.001
@@ -130,6 +143,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HitParticles:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vd6tw"]
 _data = {
@@ -137,10 +162,35 @@ _data = {
 "RESET": SubResource("Animation_tgrlv")
 }
 
+[sub_resource type="Curve" id="Curve_nmj27"]
+_data = [Vector2(0, 0.35061), 0.0, 0.0, 0, 0, Vector2(0.14, 0.992886), 0.0, 0.0, 0, 0, Vector2(1, 0.221545), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="12"]
+curve = SubResource("Curve_nmj27")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7r7qj"]
+emission_shape = 1
+emission_sphere_radius = 8.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.2
+scale_max = 0.3
+scale_curve = SubResource("12")
+
 [node name="Slime" type="CharacterBody2D"]
 process_mode = 1
-collision_layer = 3
+collision_layer = 514
+collision_mask = 513
 script = ExtResource("1_o6bx8")
+
+[node name="PathFinding" type="Node2D" parent="."]
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="PathFinding"]
+debug_path_custom_color = Color(0, 0.615262, 0.615703, 1)
+
+[node name="PathTimer" type="Timer" parent="PathFinding"]
+wait_time = 0.3
+autostart = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_wb4xh")
@@ -157,6 +207,7 @@ autoplay = "Jump"
 
 [node name="HurtBox" parent="." instance=ExtResource("3_mh01n")]
 visible = false
+collision_layer = 1024
 collision_mask = 16
 
 [node name="CollisionShape2D" parent="HurtBox" index="0"]
@@ -164,7 +215,8 @@ position = Vector2(0, 5)
 shape = SubResource("CircleShape2D_2epm6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 4)
+position = Vector2(0, 11)
+rotation = -1.55729
 shape = SubResource("CapsuleShape2D_rj6wb")
 
 [node name="MediumShadow" type="Sprite2D" parent="."]
@@ -238,6 +290,21 @@ libraries = {
 
 [node name="DMOrigin" type="Node2D" parent="."]
 
+[node name="HitParticles" type="GPUParticles2D" parent="."]
+position = Vector2(0, 5)
+emitting = false
+amount = 6
+sub_emitter = NodePath(".")
+process_material = SubResource("ParticleProcessMaterial_7r7qj")
+texture = ExtResource("10_aebvr")
+lifetime = 0.3
+one_shot = true
+preprocess = 0.03
+explosiveness = 0.8
+randomness = 0.59
+local_coords = true
+
+[connection signal="timeout" from="PathFinding/PathTimer" to="." method="_on_path_timer_timeout"]
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
 [connection signal="area_exited" from="HurtBox" to="." method="_on_hurt_box_area_exited"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

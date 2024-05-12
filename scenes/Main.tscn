@@ -16,7 +16,7 @@
 [ext_resource type="Shader" path="res://art/Shader/Water.gdshader" id="12_5mq8q"]
 [ext_resource type="Texture2D" uid="uid://mynd33nq3xc8" path="res://art/Villages/TX Props.png" id="13_b6mjv"]
 [ext_resource type="Texture2D" uid="uid://dgl1anmq0re1i" path="res://art/World/water.png" id="13_jw4o6"]
-[ext_resource type="PackedScene" uid="uid://b3dvblv1v6hs" path="res://scenes/Player/Player.tscn" id="14_v4xo6"]
+[ext_resource type="PackedScene" uid="uid://b3dvblv1v6hs" path="res://t.tscn" id="14_v4xo6"]
 [ext_resource type="PackedScene" uid="uid://b16vwyklgm40f" path="res://scenes/World/Bush.tscn" id="15_nfb6q"]
 [ext_resource type="PackedScene" uid="uid://c5qn3288alefn" path="res://scenes/World/Bush0.tscn" id="16_6fxvs"]
 [ext_resource type="PackedScene" uid="uid://b23cdko36rerg" path="res://scenes/World/Bush1.tscn" id="17_bba8p"]
@@ -6027,7 +6027,6 @@ top_level = true
 z_index = 2
 script = ExtResource("1_jejyv")
 gradient = ExtResource("2_pinee")
-INITIAL_HOUR = 24
 
 [node name="Terrain" type="Node2D" parent="."]
 
