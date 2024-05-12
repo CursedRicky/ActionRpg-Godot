@@ -3,7 +3,7 @@ class_name Goblin
 
 const EnemyDeathEffect = preload("res://scenes/Enemy/Death/effectGoblin.tscn")
 
-var speed = 50
+var speed = 30
 var knockback= Vector2.ZERO
 var playerIsInArea = false
 var player
@@ -15,6 +15,8 @@ var healt = MAXHEALT
 @onready var damageBar = $HPBar/DamageBar
 @onready var damageTimer = $HPBar/Timer
 @onready var origin = $Origin
+@onready var navigation_agent_2d = $PathFinding/NavigationAgent2D
+@export var target : Player
 
 func _ready():
 	hpBar.max_value = MAXHEALT
@@ -26,16 +28,36 @@ func _ready():
 
 func _physics_process(delta):
 	knockback = knockback.move_toward(Vector2.ZERO, delta*200)
-	velocity = knockback
+	var dir = Vector2.ZERO
 	if playerIsInArea and !Global.isInvisible:
-		$AnimatedSprite2D.play("default")
-		position += (player.position - position) / speed
+		dir = navigation_agent_2d.get_next_path_position() - global_position
+		dir = dir.normalized()
+		$AnimatedSprite2D.play("walk")
 		if position > player.position:
-			$AnimatedSprite2D.flip_h = false
-		else : 
 			$AnimatedSprite2D.flip_h = true
+		else : 
+			$AnimatedSprite2D.flip_h = false
+		velocity = (knockback * delta + dir) * speed
+		'''
+		dir.x = round(dir.x)
+		dir.y = round(dir.y)
+		if dir == Vector2(0,1) :
+			$AnimatedSprite2D.play("walkBot")
+			$AnimatedSprite2D.flip_h = false
+		if dir == Vector2(0,-1):
+			$AnimatedSprite2D.play("walkTop")
+			$AnimatedSprite2D.flip_h = false
+		if dir == Vector2(1,0) or dir == Vector2(1,1):
+			$AnimatedSprite2D.play("walkLeft")
+			$AnimatedSprite2D.flip_h = true
+		if dir == Vector2(-1,0) or dir == Vector2(-1,-1) :
+			$AnimatedSprite2D.play("walkLeft")
+			$AnimatedSprite2D.flip_h = false
+		'''
+		move_and_slide()
 	else : 
 		$AnimatedSprite2D.play("Idle")
+		velocity = velocity / 2 * delta
 	if healt<=0.5 :
 		PlayerStats.exp += randi_range(4,6)
 		queue_free() 
@@ -52,7 +74,7 @@ func _on_hurt_box_area_entered(area):
 	var areaD = area.damage
 	var damage = 0
 	var crit = false
-	area.damage *= randf_range(1, 1.2)
+	area.damage *= randf_range(1, 1.5)
 	var critN = randi_range(1, 100)
 	if !area.dps:
 		if Global.isInvisible:
@@ -73,7 +95,7 @@ func _on_hurt_box_area_entered(area):
 	area.damage = areaD
 	hpBar.value = healt #Aggiorna barra HP
 	damageTimer.start()
-	knockback = area.knockbackVector * 125
+	knockback = area.knockbackVector * 170
 	hurtBox.createHitEffect()
 	$Hit.play()
 	$AnimationPlayer.play("Blink")
@@ -99,3 +121,7 @@ func _on_timer_timeout():
 
 func _on_hurt_box_area_exited(area):
 	inArea = false
+
+
+func _on_path_timer_timeout():
+	navigation_agent_2d.target_position = target.global_position

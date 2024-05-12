@@ -5,13 +5,26 @@ var shakeFade = 5.0
 
 var rng = RandomNumberGenerator.new()
 var shakeStr = 0.0
-# Called when the node enters the scene tree for the first time.
+
+var targetDis =  0
+var centerPos = position
+const MAX_DISTANCE = 48
+
 func _ready():
 	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	var direction = centerPos.direction_to(get_local_mouse_position())
+	var targetPos = centerPos + direction * targetDis
+	
+	targetPos = targetPos.clamp(
+		centerPos - Vector2(MAX_DISTANCE, MAX_DISTANCE),
+		centerPos + Vector2(MAX_DISTANCE, MAX_DISTANCE)
+	)
+	
+	position = targetPos
 	if Global.shake:
 		applyShake()
 	if shakeStr > 0:
@@ -19,6 +32,9 @@ func _process(delta):
 		
 		offset = randomOffset()	
 
+func _input(event):
+	if event is InputEventMouseMotion:
+		targetDis = centerPos.distance_to(get_local_mouse_position()) / 2
 
 
 func applyShake():

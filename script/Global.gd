@@ -6,6 +6,9 @@ var weather = "none"
 var player_node: Player = null
 var shake = false
 var death = false
+var speedMult = 1
+
+var healtPotion = 0
 
 var isInvisible = false
 

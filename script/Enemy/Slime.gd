@@ -17,6 +17,8 @@ var healt = MAXHEALT
 @onready var damageBar = $HPBar/DamageBar
 @onready var damageTimer = $HPBar/Timer
 @onready var dmnOrigin = $DMOrigin
+@onready var navigation_agent_2d = $PathFinding/NavigationAgent2D
+@export var target : Player
 
 func _ready():
 	hpBar.max_value = MAXHEALT
@@ -29,13 +31,18 @@ func _ready():
 func _physics_process(delta):
 	DELTA = delta
 	knockback = knockback.move_toward(Vector2.ZERO, delta*200)
-	velocity = knockback
+	var dir = Vector2.ZERO
 	if playerIsInArea and !Global.isInvisible:
-		position += (player.position - position) / speed
+		dir = navigation_agent_2d.get_next_path_position() - global_position
+		dir = dir.normalized()
 		if position > player.position:
 			$Sprite2D.flip_h = true
 		else : 
 			$Sprite2D.flip_h = false
+		velocity = (knockback * delta + dir) * speed
+		move_and_slide()
+	else :
+		velocity = velocity / 2 * delta
 	if healt<=0.5 :
 		PlayerStats.exp += randi_range(1,3)
 		queue_free() #Elimina nodo
@@ -52,7 +59,7 @@ func _on_hurt_box_area_entered(area): #Il mob è colpito dal giocatore
 	var areaD = area.damage
 	var damage = 0
 	var crit = false
-	area.damage *= randf_range(1, 1.2)
+	area.damage *= randf_range(1, 1.5)
 	var critN = randi_range(1, 100)
 	if !area.dps:
 		if Global.isInvisible:
@@ -101,3 +108,7 @@ func _on_timer_timeout():
 
 func _on_hurt_box_area_exited(area):
 	inArea = false
+
+
+func _on_path_timer_timeout():
+	navigation_agent_2d.target_position = target.global_position

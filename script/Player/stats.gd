@@ -11,6 +11,7 @@ extends Node
 var lvl = 0
 var exp = 0
 var maxExp = 10
+var skillPoint = 0
 
 var gold = 0
 

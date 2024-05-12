@@ -3,18 +3,22 @@ class_name Bat
 
 const EnemyDeathEffect = preload("res://scenes/Enemy/Death/effectBat.tscn")
 
-var speed = 50
+var speed = 70
 var knockback= Vector2.ZERO
 var playerIsInArea = false
-var player
 const MAXHEALT = 3
 var healt = MAXHEALT
+var applyKnockback = false
+
+@onready var navigation_agent_2d = $PathFinding/NavigationAgent2D
 
 @onready var hurtBox = $HurtBox
 @onready var hpBar = $HPBar
 @onready var damageBar = $HPBar/DamageBar
 @onready var damageTimer = $HPBar/Timer
 @onready var origin = $Origin
+@export var target : Player
+var player
 
 func _ready():
 	hpBar.max_value = MAXHEALT
@@ -24,23 +28,26 @@ func _ready():
 	hpBar.visible = false
 	damageBar.visible = false
 
-func _physics_process(delta):
+func _physics_process(delta: float):
 	knockback = knockback.move_toward(Vector2.ZERO, delta*200)
-	velocity = knockback
+	var dir = Vector2.ZERO
 	if playerIsInArea and !Global.isInvisible:
-		position += (player.position - position) / speed
+		dir = navigation_agent_2d.get_next_path_position() - global_position
+		dir = dir.normalized()
 		if position > player.position:
 			$Bat.flip_h = true
 		else : 
 			$Bat.flip_h = false
-		
+		velocity = (knockback * delta + dir) * speed
+		move_and_slide()
+	else :
+		velocity = velocity / 2 * delta
 	if healt<=0.5 :
 		PlayerStats.exp += 1
 		queue_free() 
 		var enemyDeathEffect = EnemyDeathEffect.instantiate() 
 		get_parent().add_child(enemyDeathEffect)
 		enemyDeathEffect.global_position = global_position
-	move_and_slide()
 
 var inArea = false
 
@@ -50,7 +57,7 @@ func _on_hurt_box_area_entered(area):
 	var areaD = area.damage
 	var damage = 0
 	var crit = false
-	area.damage *= randf_range(1, 1.2)
+	area.damage *= randf_range(1, 1.5)
 	var critN = randi_range(1, 100)
 	if !area.dps:
 		if Global.isInvisible:
@@ -71,7 +78,7 @@ func _on_hurt_box_area_entered(area):
 	area.damage = areaD
 	hpBar.value = healt #Aggiorna barra HP
 	damageTimer.start()
-	knockback = area.knockbackVector * 125
+	knockback = area.knockbackVector * 150
 	hurtBox.createHitEffect()
 	$Hit.play()
 	$AnimationPlayer.play("Blink")
@@ -97,3 +104,7 @@ func _on_timer_timeout():
 
 func _on_hurt_box_area_exited(area):
 	inArea = false
+
+
+func _on_path_timer_timeout():
+	navigation_agent_2d.target_position = target.global_position

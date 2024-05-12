@@ -9,3 +9,4 @@ func _ready():
 func _on_button_pressed():
 	SceneTransition._scene_transition("res://UI/MainUI.tscn")
 	Global.death = false
+	PlayerStats.healt = PlayerStats.maxHealt

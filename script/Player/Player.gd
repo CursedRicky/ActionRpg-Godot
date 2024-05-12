@@ -45,6 +45,7 @@ func _ready():
 	Global.set_player_reference(self)
 
 func _process(delta):
+	$DestroyOnDeath/Gun.rotation = global_position.direction_to(get_global_mouse_position()).angle()
 	if canMove and !Global.death:
 		lvlUpC()
 		DELTA = delta
@@ -74,9 +75,9 @@ func _process(delta):
 			emit_signal("manaChange")
 				
 		if stats.stamina < 25 :
-			speed = MAXSPEED / 2
+			speed = MAXSPEED / 2 * Global.speedMult
 		else :
-			speed = MAXSPEED
+			speed = MAXSPEED * Global.speedMult
 		
 			
 		'''
@@ -131,6 +132,7 @@ func lvlUpC():
 		PlayerStats.lvl += 1
 		PlayerStats.exp = temp + 1
 		PlayerStats.maxExp *= 1.3
+	PlayerStats.skillPoint += 1
 	emit_signal("lvlUp")
 
 func roll():

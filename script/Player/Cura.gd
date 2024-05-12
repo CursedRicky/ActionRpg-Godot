@@ -1,9 +1,9 @@
 extends Node2D
 
 var canCast = true
-@onready var timer = $"../Barre/Panel3/Control/Timer"
-@onready var CD = $"../Barre/Panel3/Control/CD"
-@onready var time = $"../Barre/Panel3/Control/Time"
+@onready var timer = $"../Barre/hideOnPause/Panel3/Control/Timer"
+@onready var CD = $"../Barre/hideOnPause/Panel3/Control/CD"
+@onready var time = $"../Barre/hideOnPause/Panel3/Control/Time"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

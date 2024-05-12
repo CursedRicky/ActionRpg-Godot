@@ -3,6 +3,7 @@ extends Node2D
 @onready var animationPlayer = $AnimationPlayer
 @onready var animationTree = $AnimationTree
 @onready var animationState = animationTree.get("parameters/playback")
+@export var lootTableScene : PackedScene
 
 var lootable = false
 var enter = false
@@ -22,7 +23,10 @@ func openChest():
 	animationState.travel("Opening")
 	
 func giveItemsToPlayer() :
-	print("Beccate sto trapezio")
+	var gold = randi_range(1, 3)
+	var mult = randi_range(5, 10)
+	PlayerStats.gold += gold * mult
+	lootTableScene.instantiate()
 	
 func _process(delta):
 	if !lootable:

@@ -1,15 +1,13 @@
 extends CharacterBody2D
-class_name Ghost
+class_name Skeleton
 
-const EnemyDeathEffect = preload("res://scenes/Enemy/Death/effectGhost.tscn")
+const EnemyDeathEffect = preload("res://scenes/Enemy/Death/effectGoblin.tscn")
 
-var speed = 40
+var speed = 20
 var knockback= Vector2.ZERO
 var playerIsInArea = false
 var player
-var DELTA
-
-const MAXHEALT = 5
+const MAXHEALT = 2
 var healt = MAXHEALT
 
 @onready var hurtBox = $HurtBox
@@ -29,29 +27,26 @@ func _ready():
 	damageBar.visible = false
 
 func _physics_process(delta):
-	DELTA = delta
+	if playerIsInArea:
+		var angle_to_player = global_position.direction_to(target.position).angle()
+		$Gun.rotation = angle_to_player
+		$Gun.shoot()
 	knockback = knockback.move_toward(Vector2.ZERO, delta*200)
 	var dir = Vector2.ZERO
 	if playerIsInArea and !Global.isInvisible:
 		dir = navigation_agent_2d.get_next_path_position() - global_position
 		dir = dir.normalized()
-		if position > player.position:
-			$AnimatedSprite2D.flip_h = true
-		else : 
-			$AnimatedSprite2D.flip_h = false
-		velocity = (knockback * delta + dir) * speed
-		move_and_slide()
+		velocity = -dir * speed
 	else :
 		velocity = velocity / 2 * delta
 	if healt<=0.5 :
-		PlayerStats.exp += randi_range(2,4)
-		queue_free()
-		var enemyDeathEffect = EnemyDeathEffect.instantiate() #Inizia animazione morte
+		PlayerStats.exp += randi_range(4,6)
+		queue_free() 
+		var enemyDeathEffect = EnemyDeathEffect.instantiate() 
 		get_parent().add_child(enemyDeathEffect)
-		enemyDeathEffect.global_position = global_position #Posizione l'effetto nella stessa posizione dello slime
+		enemyDeathEffect.global_position = global_position
 	move_and_slide()
-	
-	
+
 var inArea = false
 
 func _on_hurt_box_area_entered(area):
@@ -60,7 +55,7 @@ func _on_hurt_box_area_entered(area):
 	var areaD = area.damage
 	var damage = 0
 	var crit = false
-	area.damage *= randf_range(1, 1.2)
+	area.damage *= randf_range(1, 1.5)
 	var critN = randi_range(1, 100)
 	if !area.dps:
 		if Global.isInvisible:
@@ -77,13 +72,13 @@ func _on_hurt_box_area_entered(area):
 		dpsDamage(area)
 	if Global.isInvisible:
 		Global.isInvisible = false
-	DamageNumber.dispay_number(damage,origin.global_position, crit)
+	DamageNumber.dispay_number(damage, origin.global_position, crit)
 	area.damage = areaD
 	hpBar.value = healt #Aggiorna barra HP
 	damageTimer.start()
-	knockback = area.knockbackVector * 150
+	knockback = area.knockbackVector * 170
 	hurtBox.createHitEffect()
-	$HitSound.play()
+	$Hit.play()
 	$AnimationPlayer.play("Blink")
 
 func dpsDamage(area):
@@ -98,7 +93,6 @@ func _on_area_2d_body_entered(body):
 
 func _on_area_2d_body_exited(body):
 	if body is Player :
-		velocity = velocity.move_toward(Vector2.ZERO, 400*DELTA)
 		playerIsInArea = false
 
 

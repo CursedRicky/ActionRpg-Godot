@@ -28,4 +28,3 @@ func update():
 func _on_timer_timeout():
 	while (dmgBar.value>PlayerStats.healt):
 		dmgBar.value -= 0.5 * player.DELTA
-		
