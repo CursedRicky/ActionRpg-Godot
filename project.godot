@@ -30,11 +30,21 @@ window/size/resizable=false
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
+mouse_cursor/custom_image="res://art/cursor.png"
+mouse_cursor/custom_image_hotspot=Vector2(12, 12)
 window/icon=""
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/gaea/plugin.cfg")
+enabled=PackedStringArray("res://addons/ez_dialogue/plugin.cfg", "res://addons/gaea/plugin.cfg")
+
+[file_customization]
+
+folder_colors={
+"res://art/": "red",
+"res://scenes/": "green",
+"res://script/": "yellow"
+}
 
 [input]
 
@@ -142,6 +152,17 @@ Esci={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":52,"key_label":0,"unicode":52,"echo":false,"script":null)
 ]
 }
+q={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":81,"key_label":0,"unicode":113,"echo":false,"script":null)
+]
+}
+5={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":53,"key_label":0,"unicode":53,"echo":false,"script":null)
+, Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":2,"canceled":false,"pressed":false,"double_click":false,"script":null)
+]
+}
 
 [layer_names]
 
@@ -152,6 +173,7 @@ Esci={
 2d_physics/layer_5="EnemyHurtBox"
 2d_physics/layer_6="EnemyLayer"
 2d_physics/layer_9="ChestLayer"
+2d_physics/layer_11="ProiettiliPlayer"
 2d_physics/layer_24="EnemyChase"
 
 [rendering]
