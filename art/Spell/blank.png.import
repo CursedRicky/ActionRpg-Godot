@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cnlpsisict5o6"
-path="res://.godot/imported/ondaTonante.png-1ad073b9a014e54bb2ab2a986602a8b5.ctex"
+uid="uid://cs7cywd5cux4"
+path="res://.godot/imported/blank.png-1e09d43e9b328eca1d6a559630efa5a5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/Spell/ondaTonante.png"
-dest_files=["res://.godot/imported/ondaTonante.png-1ad073b9a014e54bb2ab2a986602a8b5.ctex"]
+source_file="res://art/Spell/blank.png"
+dest_files=["res://.godot/imported/blank.png-1e09d43e9b328eca1d6a559630efa5a5.ctex"]
 
 [params]
 
