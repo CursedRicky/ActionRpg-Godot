@@ -282,7 +282,7 @@ max_distance = 150.0
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("7_nssgp")
-volume_db = -5.0
+volume_db = -25.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

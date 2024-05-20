@@ -90,7 +90,7 @@ script = ExtResource("2_7iyoh")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_8yoxq")
-volume_db = -5.0
+volume_db = -25.0
 autoplay = true
 
 [connection signal="animation_finished" from="." to="." method="_on_animation_finished"]
