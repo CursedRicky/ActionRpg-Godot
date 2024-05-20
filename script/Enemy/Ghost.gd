@@ -3,7 +3,7 @@ class_name Ghost
 
 const EnemyDeathEffect = preload("res://scenes/Enemy/Death/effectGhost.tscn")
 
-var speed = 40
+var speed = 30
 var knockback= Vector2.ZERO
 var playerIsInArea = false
 var player
@@ -18,7 +18,7 @@ var healt = MAXHEALT
 @onready var damageTimer = $HPBar/Timer
 @onready var origin = $Origin
 @onready var navigation_agent_2d = $PathFinding/NavigationAgent2D
-@export var target : Player
+@onready var target = Global.player
 
 func _ready():
 	hpBar.max_value = MAXHEALT
@@ -43,8 +43,9 @@ func _physics_process(delta):
 		move_and_slide()
 	else :
 		velocity = velocity / 2 * delta
-	if healt<=0.5 :
+	if healt <= .2 :
 		PlayerStats.exp += randi_range(2,4)
+		PlayerStats.souls+=1
 		queue_free()
 		var enemyDeathEffect = EnemyDeathEffect.instantiate() #Inizia animazione morte
 		get_parent().add_child(enemyDeathEffect)
@@ -67,7 +68,7 @@ func _on_hurt_box_area_entered(area):
 			area.damage *= 1.5
 		if area.canCrit and critN < PlayerStats.crit:
 			crit = true
-			damage = area.damage + area.damage * 0.5 #Danno da critico 150%
+			damage = area.damage + area.damage * PlayerStats.critMult #Danno da critico 150%
 			healt-=damage
 		else :
 			damage = area.damage #Mob prende danno
@@ -111,4 +112,4 @@ func _on_hurt_box_area_exited(area):
 
 
 func _on_path_timer_timeout():
-	navigation_agent_2d.target_position = target.global_position
+	navigation_agent_2d.target_position = Global.player.global_position

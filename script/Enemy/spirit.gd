@@ -9,6 +9,7 @@ var playerIsInArea = false
 var player
 const MAXHEALT = 2
 var healt = MAXHEALT
+var firstShoot = true
 
 @onready var hurtBox = $HurtBox
 @onready var hpBar = $HPBar
@@ -16,7 +17,7 @@ var healt = MAXHEALT
 @onready var damageTimer = $HPBar/Timer
 @onready var origin = $Origin
 @onready var navigation_agent_2d = $PathFinding/NavigationAgent2D
-@export var target : Player
+@onready var target = Global.player
 
 func _ready():
 	hpBar.max_value = MAXHEALT
@@ -30,7 +31,12 @@ func _physics_process(delta):
 	if playerIsInArea:
 		var angle_to_player = global_position.direction_to(target.position).angle()
 		$Gun.rotation = angle_to_player
-		$Gun.shoot()
+		if firstShoot:
+			firstShoot = false
+			await get_tree().create_timer(1).timeout
+			$Gun.shoot()
+		else :
+			$Gun.shoot()
 	knockback = knockback.move_toward(Vector2.ZERO, delta*200)
 	var dir = Vector2.ZERO
 	if playerIsInArea and !Global.isInvisible:
@@ -39,8 +45,9 @@ func _physics_process(delta):
 		velocity = -dir * speed
 	else :
 		velocity = velocity / 2 * delta
-	if healt<=0.5 :
+	if healt <= .2 :
 		PlayerStats.exp += randi_range(4,6)
+		PlayerStats.souls+=1
 		queue_free() 
 		var enemyDeathEffect = EnemyDeathEffect.instantiate() 
 		get_parent().add_child(enemyDeathEffect)
@@ -62,7 +69,7 @@ func _on_hurt_box_area_entered(area):
 			area.damage *= 1.5
 		if area.canCrit and critN < PlayerStats.crit:
 			crit = true
-			damage = area.damage + area.damage * 0.5 #Danno da critico 150%
+			damage = area.damage + area.damage * PlayerStats.critMult #Danno da critico 150%
 			healt-=damage
 		else :
 			damage = area.damage #Mob prende danno

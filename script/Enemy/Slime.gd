@@ -43,8 +43,9 @@ func _physics_process(delta):
 		move_and_slide()
 	else :
 		velocity = velocity / 2 * delta
-	if healt<=0.5 :
+	if healt <= .2 :
 		PlayerStats.exp += randi_range(1,3)
+		PlayerStats.souls+=1
 		queue_free() #Elimina nodo
 		var enemyDeathEffect = EnemyDeathEffect.instantiate() #Inizia animazione morte
 		get_parent().add_child(enemyDeathEffect)
@@ -66,7 +67,7 @@ func _on_hurt_box_area_entered(area): #Il mob è colpito dal giocatore
 			area.damage *= 1.5
 		if area.canCrit and critN < PlayerStats.crit:
 			crit = true
-			damage = area.damage + area.damage * 0.5 #Danno da critico 150%
+			damage = area.damage + area.damage * PlayerStats.critMult #Danno da critico 150%
 			healt-=damage
 		else :
 			damage = area.damage #Mob prende danno
