@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Giuoco"
-run/main_scene="res://UI/MainUI.tscn"
+run/main_scene="res://scenes/Doungeon.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.png"
 
@@ -21,6 +21,7 @@ Global="*res://script/Global.gd"
 PlayerStats="*res://scenes/Box/player_stats.tscn"
 SceneTransition="*res://scenes/sceneTransition.tscn"
 DamageNumber="*res://script/Enemy/DamageNumber.gd"
+BossBar="res://script/Enemy/Boss/BossBar.gd"
 
 [display]
 
