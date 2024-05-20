@@ -3,5 +3,5 @@ shader_type canvas_item;
 void fragment() {
 	vec4 pixelColor = texture(TEXTURE, UV);
 	COLOR = pixelColor;
-	COLOR.rgb = COLOR.bgr;
+	COLOR.rgb = COLOR.grb;
 }
